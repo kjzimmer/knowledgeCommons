@@ -11,6 +11,7 @@ import { Entry } from '../content/types';
 import { ask, shareQuestion } from '../holon/holon';
 import { anthropicConfigured } from '../holon/anthropic';
 import { limitReached } from '../holon/usage';
+import { createReviewToken, safePath } from '../lib/review';
 import { renderAnswer } from '../site/ui';
 
 const router = Router();
@@ -141,6 +142,17 @@ router.post('/holon/ask', siteAskLimiter, async (req, res) => {
 router.post('/holon/share', async (req, res) => {
   const ok = await shareQuestion(String(req.body?.sessionId ?? ''), String(req.body?.asker?.email ?? ''));
   res.json({ ok });
+});
+
+// Draft only: a host site with a valid key can let its own invited reviewers into the commons' pages, so citations
+// and links on the host site open here. The link names the site that vouched for the reviewer.
+router.post('/reviewer-links', (req, res) => {
+  const email = String(req.body?.reviewer?.email ?? '').trim().toLowerCase();
+  const name = String(req.body?.reviewer?.name ?? '').trim().slice(0, 120);
+  const to = safePath(req.body?.to);
+  if (!email || !name) return res.status(400).json({ error: 'reviewer.name and reviewer.email are required' });
+  const token = createReviewToken({ name, email, role: 'reviewer', via: String(res.locals.site) });
+  res.json({ url: `${base()}/r/${token}${to ? `?to=${encodeURIComponent(to)}` : ''}` });
 });
 
 router.post('/holon/discuss', (_req, res) => res.status(501).json({ error: 'Discuss mode is not built in the concept demo.' }));

@@ -64,21 +64,17 @@ proposals:
         selfReinforcement: { result: pass, note: "Relies on entries drawn from primary sources." }
     reviews: []
   - id: p-004
-    title: "From Abundance Architecture, question 'how-abundance-arrives': new question and evidence"
-    contributor: { kind: site, name: "Abundance Architecture", attributed: ["Sample participant D", "Sample participant E"] }
-    submitted: 2026-10-16
+    title: "From Abundance Architecture, question 'global-problems-many-centers': a new question"
+    contributor: { kind: site, name: "Abundance Architecture", attributed: ["Participant C (sample)"] }
+    submitted: 2026-10-17
     items:
       - kind: addition
         type: question
-        summary: "Does falling technology cost reliably reach household budgets, or is it captured along the way?"
-      - kind: addition
-        type: evidence
-        target: dispersed-knowledge
-        summary: "Participants cite platform firms' internal planning as a counter-example (to be sourced)."
+        summary: "Was the open sharing of pandemic virus sequences a case of polycentric coordination? (From a discussion on the Abundance Architecture site; the example is not yet sourced.)"
     audit:
       model: claude-haiku-5-5
       checks:
-        provenance: { result: concern, note: "The evidence item has no source yet." }
+        provenance: { result: concern, note: "The pandemic example has no source yet." }
         integrity: { result: pass, note: "" }
         method: { result: pass, note: "" }
         reasoning: { result: pass, note: "" }

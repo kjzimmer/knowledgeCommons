@@ -12,7 +12,15 @@ export interface Reviewer {
   email: string;
   /** steward = can see private sessions (Karl, in the draft) */
   role: 'steward' | 'reviewer';
+  /** The host site that vouched for this reviewer, when the link was issued through the public interface */
+  via?: string;
   iat: number;
+}
+
+/** A same-site path such as "/entries/x", or null. Guards redirects against leaving the site */
+export function safePath(value: unknown): string | null {
+  const p = typeof value === 'string' ? value.trim() : '';
+  return /^\/(?!\/)[\w\-./?=&%]*$/.test(p) && !p.includes('\\') ? p : null;
 }
 
 export const REVIEW_COOKIE = 'kc_review';
@@ -96,5 +104,5 @@ export function acceptReviewLink(req: Request, res: Response): void {
     maxAge: COOKIE_MAX_AGE_MS,
     path: '/',
   });
-  res.redirect(303, '/');
+  res.redirect(303, safePath(req.query.to) ?? '/');
 }

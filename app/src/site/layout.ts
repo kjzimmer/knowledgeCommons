@@ -53,7 +53,7 @@ export function page(o: PageOptions): string {
 <header class="site">
   <div class="wrap header-row">
     <a class="brand" href="/"><span class="ph">[COMMONS NAME]</span><span class="tag">a knowledge commons on living systems</span></a>
-    ${o.reviewer ? html`<span class="who">${o.reviewer.name}${o.reviewer.role === 'steward' ? html` · <a href="/sessions">Sessions</a>` : ''}</span>` : ''}
+    ${o.reviewer ? html`<span class="who">${o.reviewer.name}${o.reviewer.via ? html` · via ${o.reviewer.via}` : ''}${o.reviewer.role === 'steward' ? html` · <a href="/sessions">Sessions</a>` : ''}</span>` : ''}
   </div>
   <nav class="wrap main-nav" aria-label="Main">
     ${NAV.map(([href, label]) => html`<a href="${href}"${current(href) ? html` aria-current="page"` : ''}>${label}</a>`)}

@@ -179,6 +179,7 @@ ${endpoint('POST', '/api/v1/holon/ask', "Ask a question on behalf of a person on
 ${endpoint('POST', '/api/v1/holon/share', 'The asker chose to share their unanswered question with the commons, which logs it as a gap with their words.', '{ "sessionId": "…", "asker": { "email": "reviewer@example.com" } }')}
 <h2>Contribute</h2>
 ${endpoint('POST', '/api/v1/proposals', "Propose additions or status changes, attributed to the people who made them. Proposals from outside sites are audited and reviewed exactly like anyone else's. Not built in the concept demo (returns 501).")}
+${endpoint('POST', '/api/v1/reviewer-links', "Draft only: lets a host site's invited reviewers into the commons' pages, so its citations open here. Returns a signed link that names the site that vouched for the reviewer. Optional \"to\" is a page path.", '{ "reviewer": { "name": "…", "email": "…" }, "to": "/entries/dispersed-knowledge" }')}
 ${endpoint('POST', '/api/v1/holon/discuss', "Invite Holon into a discussion: the host sends the thread, Holon returns one labelled contribution. Not built in the concept demo (returns 501).")}`;
 }
 
