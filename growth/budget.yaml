@@ -1,0 +1,18 @@
+# The commons' monthly AI budget and its allocations, set by the stewards. Draft values (brief v0.2, section 15).
+monthlyBudgetUsd: 50
+allocations:
+  answering: 40
+  auditing: 15
+  curation: 25
+  discovery: 5
+  questionMining: 5
+  analysis: 10
+priority: [answering, auditing, curation, discovery, questionMining, analysis]
+rules:
+  - "When a share is used up, that loop pauses until next month."
+  - "Nothing is applied without its audit: if the audit share is used up, proposals wait."
+  - "Unused shares are not carried over in the draft."
+  - "When the review queue holds more than 50 unreviewed items, curation, question mining and analysis pause."
+fairUse:
+  holonQuestionsPerReviewerPerDay: 30
+  dailySpendCeilingUsd: 2

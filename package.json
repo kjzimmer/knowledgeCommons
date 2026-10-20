@@ -1,0 +1,33 @@
+{
+  "name": "knowledge-commons",
+  "version": "0.1.0",
+  "description": "The knowledge commons: content, agent definitions and the web app that serves them (concept demo)",
+  "private": true,
+  "engines": {
+    "node": ">=20.12.0"
+  },
+  "scripts": {
+    "build": "prisma generate && tsc -p app",
+    "start": "node app/dist/index.js",
+    "dev": "tsx watch --env-file .env app/src/index.ts",
+    "content:check": "tsx app/src/scripts/check-content.ts",
+    "review:link": "tsx app/src/scripts/review-link.ts",
+    "ask": "tsx app/src/scripts/ask.ts",
+    "typecheck": "tsc -p app --noEmit"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.136.0",
+    "@prisma/client": "^6.19.3",
+    "@types/cookie-parser": "^1.4.8",
+    "@types/express": "^5.0.6",
+    "@types/node": "^25.9.3",
+    "cookie-parser": "^1.4.7",
+    "express": "^5.2.1",
+    "express-rate-limit": "^8.5.2",
+    "marked": "^15.0.12",
+    "prisma": "^6.19.3",
+    "tsx": "^4.22.4",
+    "typescript": "^6.0.3",
+    "yaml": "^2.9.1"
+  }
+}

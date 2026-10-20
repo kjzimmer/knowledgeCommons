@@ -1,0 +1,35 @@
+# The commons' domains. Areas come from the definition ("What it covers"); topics are finer tags used on entries.
+areas:
+  - id: living-systems
+    name: How living systems work
+    about: Complexity, emergence, feedback, resilience, self-organization, and the science behind them.
+  - id: societies
+    name: Human societies as living systems
+    about: Economies, health, education, governance, commons and communities, studied as complex adaptive systems.
+  - id: condition
+    name: The condition of our systems today
+    about: Evidence and arguments about where our systems are healthy and where they are failing, including diagnoses such as "polycrisis", the objections to them, and the measures used to tell.
+  - id: lenses
+    name: Ways of seeing
+    about: The lenses people use to understand systems, what each reveals, what each hides, and where each fits.
+  - id: flourishing
+    name: What helps systems flourish
+    about: Principles, designs and results from real initiatives, with what worked, what failed and why.
+  - id: experience
+    name: What it is like
+    about: Accounts from practitioners and communities of living and working in healthier or less healthy systems, recorded as such.
+
+topics:
+  - { id: complexity, name: Complexity and emergence, area: living-systems }
+  - { id: resilience, name: Resilience, area: living-systems }
+  - { id: feedback, name: Feedback and leverage, area: living-systems }
+  - { id: economics, name: Economies and markets, area: societies }
+  - { id: governance, name: Governance and the state, area: societies }
+  - { id: commons, name: Commons, area: societies }
+  - { id: health, name: Health, area: societies }
+  - { id: psychology, name: Motivation and wellbeing, area: societies }
+  - { id: knowledge, name: Knowledge and coordination, area: societies }
+  - { id: polycrisis, name: Polycrisis and systemic risk, area: condition }
+  - { id: planetary, name: Planetary limits, area: condition }
+  - { id: reductionism, name: Reductionism and holism, area: lenses }
+  - { id: design, name: Designs and principles, area: flourishing }

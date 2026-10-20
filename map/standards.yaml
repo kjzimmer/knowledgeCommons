@@ -1,0 +1,48 @@
+# Evidence levels, kinds of evidence and agreement statuses, from the definition (draft 0.2).
+# The level attaches to the claim, not to the source.
+
+evidenceLevels:
+  - id: established
+    name: Established evidence
+    meaning: Supported by strong, independent evidence of the kind the claim needs.
+  - id: extension
+    name: Reasonable extension
+    meaning: Follows from established evidence by an argument others can check, but has not itself been shown directly.
+  - id: speculation
+    name: Speculation
+    meaning: A plausible idea without the evidence to call it more.
+
+evidenceKinds:
+  - { id: replicated-study, name: Replicated study }
+  - { id: observation, name: Observation }
+  - { id: model, name: Model or simulation }
+  - { id: historical-case, name: Historical case }
+  - { id: theory, name: Theory }
+  - { id: analysis, name: Analysis }
+  - { id: practitioner, name: Practitioner experience }
+
+agreementStatuses:
+  - id: settled
+    name: Settled
+    meaning: Independent lines of strong evidence converge, and serious objections have been answered.
+  - id: leaning
+    name: Leaning
+    meaning: The weight of evidence points one way, with live objections.
+  - id: contested
+    name: Contested
+    meaning: Credible evidence or argument points in different directions.
+  - id: unknown
+    name: Unknown
+    meaning: Studied, without a clear answer.
+  - id: not-studied
+    name: Not studied
+    meaning: No serious evidence either way.
+
+rightsStatuses:
+  - { id: own-work, name: Own work, fullText: true }
+  - { id: open-licence, name: Open licence, fullText: true }
+  - { id: public-domain, name: Public domain, fullText: true }
+  - { id: permission-granted, name: Permission granted, fullText: true }
+  - { id: permission-requested, name: Permission requested, fullText: false }
+  - { id: permission-declined, name: Permission declined, fullText: false }
+  - { id: not-held, name: Not held, fullText: false }

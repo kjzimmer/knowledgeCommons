@@ -1,0 +1,25 @@
+# Short definitions Holon can rely on. Each term is the commons' working usage, not a settled definition.
+# AI-drafted (Claude Code), unreviewed.
+terms:
+  - term: Complex adaptive system
+    meaning: A system of many interacting parts that adapt to one another and to their surroundings, so that the behaviour of the whole emerges from the interactions rather than being set by any one part.
+  - term: Emergence
+    meaning: Properties or behaviour of a whole that are not found in, and cannot simply be read off from, its parts taken one at a time.
+  - term: Feedback loop
+    meaning: A chain of cause and effect that returns to its starting point. Balancing (negative) loops counteract change; reinforcing (positive) loops amplify it.
+  - term: Resilience
+    meaning: The capacity of a system to absorb disturbance and reorganize while keeping essentially the same function, structure and identity. Resilience is not always good; an undesirable state can be resilient too.
+  - term: Holon
+    meaning: Something that is at once a whole and a part of a larger whole. The term is Arthur Koestler's (1967). Also the name of this commons' agent.
+  - term: Polycrisis
+    meaning: Crises in several systems that are causally entangled, so that together they do more harm than each would alone.
+  - term: Commons
+    meaning: A shared resource together with the community that uses it and the rules that community makes.
+  - term: Polycentric governance
+    meaning: Many centres of decision-making, each with some independence, operating within an overall set of rules, as opposed to a single central authority.
+  - term: Reductionism
+    meaning: Understanding a system by taking it apart and studying its parts. In this commons, a natural and necessary part of how understanding is built, completed (not replaced) by attention to wholes.
+  - term: Leverage point
+    meaning: A place in a system where a small shift can produce large changes in its behaviour (Meadows).
+  - term: Crux
+    meaning: "What a disagreement turns on: the point that, if settled, would move at least one side."

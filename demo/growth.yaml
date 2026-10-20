@@ -1,0 +1,16 @@
+# SAMPLE status of the growth loops. Illustrative numbers; the loops are not running in the concept demo.
+sample: true
+loops:
+  - { id: acquisition, name: Acquisition, status: "Not run", detail: "37 works on the seed list; 26 already entered by hand as artifacts for the demo." }
+  - { id: discovery, name: Discovery, status: "Sample", detail: "Weekly scan of the watchlist; 20 top candidates a run." }
+  - { id: curation, name: Curation, status: "Sample", detail: "Drafts entries from newly acquired artifacts, oldest first." }
+  - { id: question-mining, name: Question mining, status: "Live (gaps only)", detail: "Holon records gap notes when the commons cannot answer. Other sources are not running." }
+  - { id: analysis, name: Analysis, status: "Sample", detail: "Weekly, three items: most-reported gaps first." }
+  - { id: recheck, name: Re-check, status: "Sample", detail: "Flags entries a new artifact may bear on." }
+candidates:
+  - { title: "Cox, M., Arnold, G., & Villamayor Tomás, S. (2010). A review of design principles for community-based natural resource management. Ecology and Society.", why: "Bears on the entry ostrom-design-principles, whose support is reported but not yet sourced.", score: 0.94 }
+  - { title: "Steffen, W., et al. (2015). Planetary boundaries: Guiding human development on a changing planet. Science.", why: "Update to the planetary boundaries framework.", score: 0.88 }
+  - { title: "Folke, C. (2006). Resilience: The emergence of a perspective for social–ecological systems analyses. Global Environmental Change.", why: "Review of resilience thinking; bears on resilience-definition.", score: 0.81 }
+fundingEstimates:
+  note: "Illustrative, at list prices. Replaced by computed figures once the loops log real costs."
+  perTenDollars: { artifactsCurated: 40, analysesRun: 25, questionsAnswered: 250 }

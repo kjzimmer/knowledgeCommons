@@ -1,0 +1,17 @@
+# Everyone and everything that has contributed to the commons. Files refer to these ids.
+# For an agent, the model and the version of its instructions are recorded, so its work can be reproduced.
+contributors:
+  - id: karl-zimmer
+    kind: person
+    name: Karl Zimmer
+  - id: aa-site
+    kind: site
+    name: Abundance Architecture
+    note: References from the Abundance Architecture draft site, moved into the commons. Most were chosen by Claude for Karl and are awaiting his confirmation.
+  - id: claude-code-demo
+    kind: agent
+    name: Claude Code (drafting for the concept demo)
+    model: claude-opus-5-5
+    provider: anthropic
+    instructions: "Brief v0.2, section 8 (seeding). Not the curator: the curator's instructions are in agents/curator/."
+    note: Drafted on 2026-10-20 to seed the concept demo. Every item it drafted is AI-derived and unreviewed. Its basis is recorded on each item, either "checked against the text" or "from the model's knowledge of the work, not checked against the text".

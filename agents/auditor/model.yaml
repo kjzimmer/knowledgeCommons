@@ -1,0 +1,6 @@
+roles:
+  audit:
+    provider: anthropic
+    model: claude-haiku-5-5
+    status: not running in the concept demo
+note: "In the draft only Claude is available, so the auditor uses a different Claude model (Haiku 5.5) from the one whose work it checks (Sonnet 5.5)."

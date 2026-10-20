@@ -1,0 +1,5 @@
+roles:
+  curate:
+    provider: anthropic
+    model: claude-sonnet-5-5
+    status: not running in the concept demo

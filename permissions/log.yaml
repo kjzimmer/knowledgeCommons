@@ -1,0 +1,4 @@
+# The public permission log: each request to a rights holder, and its outcome.
+# The concept demo lists works marked "to request"; no requests have been sent yet.
+requests: []
+note: "No permission requests have been sent. Artifacts marked permission: to-request appear on the Permissions page as candidates."

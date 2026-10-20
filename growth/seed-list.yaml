@@ -1,0 +1,46 @@
+# The starter seed list (Commons_SeedList_v0_1), awaiting Karl's review. Acquisition has not run yet.
+# Citations are from Claude's memory and unchecked. "likely" is a guess to help prioritize, not a rights finding.
+reviewed: false
+works:
+  - { citation: "Meadows, D. H. (2008). Thinking in Systems: A Primer. Chelsea Green.", area: living-systems, likely: cite }
+  - { citation: "Meadows, D. H. (1999). Leverage Points: Places to Intervene in a System.", area: living-systems, likely: ask, artifact: meadows-1999 }
+  - { citation: "Simon, H. A. (1962). The architecture of complexity.", area: living-systems, likely: ask, artifact: simon-1962 }
+  - { citation: "Anderson, P. W. (1972). More is different. Science, 177.", area: living-systems, likely: cite, artifact: anderson-1972 }
+  - { citation: "Holland, J. H. (1995). Hidden Order: How Adaptation Builds Complexity.", area: living-systems, likely: cite }
+  - { citation: "Kauffman, S. (1995). At Home in the Universe.", area: living-systems, likely: cite }
+  - { citation: "Mitchell, M. (2009). Complexity: A Guided Tour.", area: living-systems, likely: cite }
+  - { citation: "Koestler, A. (1967). The Ghost in the Machine.", area: living-systems, likely: cite, artifact: koestler-1967 }
+  - { citation: "Capra, F., & Luisi, P. L. (2014). The Systems View of Life.", area: living-systems, likely: cite }
+  - { citation: "Holling, C. S. (1973). Resilience and stability of ecological systems.", area: living-systems, likely: ask, artifact: holling-1973 }
+  - { citation: "Walker, B., et al. (2004). Resilience, adaptability and transformability in social–ecological systems.", area: living-systems, likely: open, artifact: walker-2004 }
+  - { citation: "West, G. (2017). Scale.", area: living-systems, likely: cite }
+  - { citation: "Taleb, N. N. (2012). Antifragile.", area: living-systems, likely: cite }
+  - { citation: "Hayek, F. A. (1945). The use of knowledge in society.", area: societies, likely: ask, artifact: hayek-1945 }
+  - { citation: "Hardin, G. (1968). The tragedy of the commons.", area: societies, likely: cite, artifact: hardin-1968 }
+  - { citation: "Ostrom, E. (1990). Governing the Commons.", area: societies, likely: cite, artifact: ostrom-1990 }
+  - { citation: "Ostrom, E. (2010). Beyond markets and states: Polycentric governance of complex economic systems.", area: societies, likely: ask }
+  - { citation: "Ostrom, V., Tiebout, C. M., & Warren, R. (1961). The organization of government in metropolitan areas.", area: societies, likely: cite }
+  - { citation: "Hess, C., & Ostrom, E. (Eds.) (2007). Understanding Knowledge as a Commons.", area: societies, likely: ask }
+  - { citation: "Benkler, Y. (2006). The Wealth of Networks.", area: societies, likely: open, artifact: benkler-2006 }
+  - { citation: "Scott, J. C. (1998). Seeing Like a State.", area: societies, likely: cite, artifact: scott-1998 }
+  - { citation: "Snowden, D. J., & Boone, M. E. (2007). A leader's framework for decision making.", area: societies, likely: cite, artifact: snowden-boone-2007 }
+  - { citation: "Arthur, W. B. (2014). Complexity and the Economy.", area: societies, likely: cite }
+  - { citation: "Ryan, R. M., & Deci, E. L. (2000). Self-determination theory…", area: flourishing, likely: ask, artifact: ryan-deci-2000 }
+  - { citation: "Sen, A. (1999). Development as Freedom.", area: flourishing, likely: cite, artifact: sen-1999 }
+  - { citation: "Mullainathan, S., & Shafir, E. (2013). Scarcity.", area: flourishing, likely: cite, artifact: mullainathan-shafir-2013 }
+  - { citation: "Raworth, K. (2017). Doughnut Economics.", area: flourishing, likely: cite, artifact: raworth-2017 }
+  - { citation: "Fullerton, J. (2015). Regenerative Capitalism.", area: flourishing, likely: ask, artifact: fullerton-2015 }
+  - { citation: "Booth, J. (2020). The Price of Tomorrow.", area: flourishing, likely: cite }
+  - { citation: "Lawrence, M., Janzwood, S., & Homer-Dixon, T. (2022). What Is a Global Polycrisis?", area: condition, likely: ask, artifact: lawrence-2022 }
+  - { citation: "Morin, E., & Kern, A. B. (1999). Homeland Earth.", area: condition, likely: cite }
+  - { citation: "Rockström, J., et al. (2009). A safe operating space for humanity.", area: condition, likely: cite, artifact: rockstrom-2009 }
+  - { citation: "Engel, G. L. (1977). The need for a new medical model.", area: societies, likely: cite, artifact: engel-1977 }
+  - { citation: "Plsek, P. E., & Greenhalgh, T. (2001). The challenge of complexity in health care.", area: societies, likely: ask, artifact: plsek-greenhalgh-2001 }
+  - { citation: "Lipsitz, L. A., & Goldberger, A. L. (1992). Loss of 'complexity' and aging.", area: societies, likely: cite, artifact: lipsitz-goldberger-1992 }
+  - { citation: "Sturmberg, J. P., & Martin, C. M. (Eds.) (2013). Handbook of Systems and Complexity in Health.", area: societies, likely: cite }
+  - { citation: "Davis, B., & Sumara, D. (2006). Complexity and Education.", area: societies, likely: cite }
+gaps:
+  - "Practitioner and experiential accounts"
+  - "Non-Western traditions of holistic thought"
+  - "Money and finance as complex systems beyond Booth"
+  - "Works critical of complexity and living-systems approaches themselves, beyond Hardin"

@@ -1,0 +1,13 @@
+# Holon's model settings. The provider interface reads this; agent code does not name a provider.
+roles:
+  ask:
+    provider: anthropic
+    model: claude-sonnet-5-5
+    effort: medium
+    maxTokens: 6000
+    maxToolRounds: 6
+  discuss:
+    provider: anthropic
+    model: claude-sonnet-5-5
+    status: not built in the concept demo
+note: "Model per brief v0.2 section 12. Every call records provider, model and instruction version."

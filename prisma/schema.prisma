@@ -1,0 +1,78 @@
+// The commons web app's database: operational data only. Knowledge lives in the repository's files.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+/// A private conversation with Holon. Never published, never used for training. Kept during the draft so the
+/// stewards can review how Holon behaves (reviewers are told this).
+model HolonSession {
+  id         String         @id @default(cuid())
+  /// "reviewer" (asked on the commons app) or "site" (asked through the public interface by a host site)
+  askerKind  String
+  askerName  String?
+  askerEmail String?
+  /// The host site, for questions asked through the public interface
+  site       String?
+  createdAt  DateTime       @default(now())
+  messages   HolonMessage[]
+
+  @@index([createdAt])
+}
+
+model HolonMessage {
+  id                 String       @id @default(cuid())
+  sessionId          String
+  session            HolonSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  role               String // user | assistant
+  text               String
+  entriesCited       String[]
+  provider           String?
+  model              String?
+  instructionVersion String?
+  costUsd            Float?
+  /// The asker ticked "share this question with the commons"
+  shared             Boolean      @default(false)
+  createdAt          DateTime     @default(now())
+
+  @@index([sessionId, createdAt])
+}
+
+/// Every model call, with tokens and computed cost. The Costs page and the monthly ledger read this.
+model ModelCall {
+  id                 String   @id @default(cuid())
+  /// Agent role, e.g. "holon.ask"
+  role               String
+  provider           String
+  model              String
+  instructionVersion String?
+  inputTokens        Int
+  cacheReadTokens    Int      @default(0)
+  cacheWriteTokens   Int      @default(0)
+  outputTokens       Int
+  costUsd            Float
+  /// What the call served, e.g. "commons app" or the host site's name
+  servedFor          String
+  askerEmail         String?
+  sessionId          String?
+  stopReason         String?
+  createdAt          DateTime @default(now())
+
+  @@index([createdAt])
+  @@index([askerEmail, createdAt])
+}
+
+/// Something the commons could not answer. Records only what was missing, never the asker's words, unless they
+/// chose to share their question.
+model GapNote {
+  id             String   @id @default(cuid())
+  note           String
+  source         String // holon | shared-question
+  sharedQuestion String?
+  createdAt      DateTime @default(now())
+}

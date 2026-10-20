@@ -1,0 +1,22 @@
+# Auditor test set: contributions with planted problems, and clean ones. EXAMPLE rows only.
+cases:
+  - id: example-misquote
+    example: true
+    planted: provenance
+    contribution: "Entry claims Walker et al. (2004) say resilience is always desirable."
+    expect: { provenance: fail }
+  - id: example-double-count
+    example: true
+    planted: integrity
+    contribution: "Entry cites Walker et al. (2004) and Holling (1973) as two independent lines of evidence for the same definition."
+    expect: { integrity: concern }
+  - id: example-single-cause
+    example: true
+    planted: reasoning
+    contribution: "Analysis attributes the collapse of a fishery entirely to one policy change."
+    expect: { reasoning: fail }
+  - id: example-clean
+    example: true
+    planted: none
+    contribution: "Entry on open-access overuse that records Ostrom's objection."
+    expect: { provenance: pass, integrity: pass, method: pass, reasoning: pass, selfReinforcement: pass }

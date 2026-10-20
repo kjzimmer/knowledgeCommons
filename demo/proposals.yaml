@@ -1,0 +1,86 @@
+# SAMPLE proposals in the review queue, each with a SAMPLE auditor report. Nothing here was produced by a running agent.
+proposals:
+  - id: p-001
+    title: "New artifact and two entries from Ostrom (2010), 'Beyond markets and states'"
+    contributor: { kind: agent, name: Curator, model: claude-sonnet-5-5, instructions: "curator 0.1.0", inputs: "Ostrom (2010), acquired from the seed list" }
+    submitted: 2026-10-19
+    items:
+      - kind: addition
+        type: artifact
+        summary: "Ostrom, E. (2010). Beyond markets and states. American Economic Review, 100(3). Rights: not held (permission to request)."
+      - kind: addition
+        type: entry
+        summary: "Polycentric systems allow experimentation and learning across scales."
+        proposed: { evidence: extension, agreement: leaning }
+      - kind: addition
+        type: objection
+        target: polycentric-climate
+        summary: "Polycentric arrangements can raise coordination costs and leave gaps between jurisdictions (suggested by the curator, unsourced)."
+    audit:
+      model: claude-haiku-5-5
+      checks:
+        provenance: { result: pass, note: "Both entries match the cited passages." }
+        integrity: { result: concern, note: "The new entry and the existing polycentric-climate entry both rest on Ostrom's own work; they are not independent." }
+        method: { result: pass, note: "No status change claimed." }
+        reasoning: { result: pass, note: "" }
+        selfReinforcement: { result: concern, note: "The objection is unsourced and AI-suggested." }
+    reviews:
+      - { name: "Sample reviewer A", action: endorse, item: 1, note: "Accurate summary." }
+  - id: p-002
+    title: "Change the agreement status of 'scarcity narrows attention' from contested to leaning"
+    contributor: { kind: person, name: "Sample reviewer B" }
+    submitted: 2026-10-18
+    items:
+      - kind: status-change
+        type: agreement-status
+        target: scarcity-narrows-attention
+        summary: "Proposes leaning, citing the original studies."
+    audit:
+      model: claude-haiku-5-5
+      checks:
+        provenance: { result: pass, note: "" }
+        integrity: { result: fail, note: "Drops the replication objection without citing a reason or a replication study." }
+        method: { result: concern, note: "A status change needs evidence that the replication concern has been answered." }
+        reasoning: { result: pass, note: "" }
+        selfReinforcement: { result: pass, note: "" }
+    reviews:
+      - { name: "Sample reviewer C", action: dispute, item: 1, note: "The replication record needs checking first." }
+  - id: p-003
+    title: "Analysis: is polycentric action adding up for climate?"
+    contributor: { kind: agent, name: Holon, model: claude-sonnet-5-5, instructions: "holon 0.1.0", inputs: "entries polycentric-climate, regime-complex, commons-self-governance; question polycentric-global" }
+    submitted: 2026-10-17
+    items:
+      - kind: addition
+        type: analysis
+        target: polycentric-global
+        summary: "The two sources agree that polycentric action is happening and disagree on whether it is enough. They are partly independent (different disciplines, overlapping citations). Crux: whether total action matches what a global agreement would require. No status change proposed: the commons lacks outcome evidence."
+    audit:
+      model: claude-haiku-5-5
+      checks:
+        provenance: { result: pass, note: "" }
+        integrity: { result: pass, note: "Both positions kept." }
+        method: { result: pass, note: "Method stated; inputs listed." }
+        reasoning: { result: pass, note: "" }
+        selfReinforcement: { result: pass, note: "Relies on entries drawn from primary sources." }
+    reviews: []
+  - id: p-004
+    title: "From Abundance Architecture, question 'how-abundance-arrives': new question and evidence"
+    contributor: { kind: site, name: "Abundance Architecture", attributed: ["Sample participant D", "Sample participant E"] }
+    submitted: 2026-10-16
+    items:
+      - kind: addition
+        type: question
+        summary: "Does falling technology cost reliably reach household budgets, or is it captured along the way?"
+      - kind: addition
+        type: evidence
+        target: dispersed-knowledge
+        summary: "Participants cite platform firms' internal planning as a counter-example (to be sourced)."
+    audit:
+      model: claude-haiku-5-5
+      checks:
+        provenance: { result: concern, note: "The evidence item has no source yet." }
+        integrity: { result: pass, note: "" }
+        method: { result: pass, note: "" }
+        reasoning: { result: pass, note: "" }
+        selfReinforcement: { result: pass, note: "" }
+    reviews: []

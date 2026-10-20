@@ -1,0 +1,18 @@
+# Holon test set: questions with the entries a good answer should use.
+# EXAMPLE rows only. Karl and reviewers write the rest.
+cases:
+  - id: example-1
+    example: true
+    question: "Is resilience always a good thing?"
+    expectedEntries: [resilience-not-always-good, resilience-definition]
+    mustMention: ["a system can be resilient in an undesirable state"]
+  - id: example-2
+    example: true
+    question: "Didn't Hardin show that commons always fail?"
+    expectedEntries: [open-access-overuse, commons-self-governance]
+    mustMention: ["the difference between open access and governed commons", "the objection from Ostrom"]
+  - id: example-3
+    example: true
+    question: "What is the strongest argument against the idea that we manage living systems like machines?"
+    expectedEntries: [machine-lens-failure, near-decomposability]
+    mustMention: ["recorded as Abundance Architecture's thesis, not the commons' conclusion", "the reductionist reply"]

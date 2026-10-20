@@ -1,0 +1,15 @@
+# What discovery scans for new works, per domain. SAMPLE: discovery is not running in the concept demo.
+sample: true
+watch:
+  - area: living-systems
+    terms: ["social-ecological resilience", "complex adaptive systems", "emergence"]
+    feeds: ["arXiv nlin.AO (adaptation and self-organizing systems)", "Ecology and Society (journal feed)"]
+  - area: societies
+    terms: ["polycentric governance", "commons governance", "self-determination theory"]
+    feeds: ["OpenAlex saved query: polycentric governance, open access"]
+  - area: condition
+    terms: ["polycrisis", "systemic risk", "planetary boundaries"]
+    feeds: ["Cascade Institute publications"]
+  - area: societies
+    terms: ["complexity health care", "biopsychosocial"]
+    feeds: ["BMJ complexity series"]
