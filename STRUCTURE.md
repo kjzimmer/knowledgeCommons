@@ -22,6 +22,9 @@ the commons; the web app's database holds only operational data (private Holon s
 | `permissions/` | The public permission log |
 | `demo/` | Sample data for parts that are not built yet. Clearly labelled; not real activity |
 | `app/` | The web app that indexes this repository and serves Holon and the pages |
+| `config/` | Model prices used to compute the cost of every call |
+| `docs/` | Status, decisions and roadmap for the people building the commons (`docs/STATUS.md`) |
+| `CLAUDE.md` | Orientation for AI coding sessions working on this repository |
 | `prisma/` | The web app's database schema (operational data only) |
 
 **Labels used on content.** `basis: checked-against-text` means the item was checked against the work's actual
