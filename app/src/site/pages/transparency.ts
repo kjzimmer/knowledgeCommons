@@ -23,6 +23,22 @@ export function howItWorksPage(): Html {
 <div class="doc">${markdown(d.structure)}</div>`;
 }
 
+/** STATE.md and CHANGELOG.md, the commons' public face (project comms 0.1). Links between the repository's
+ * top-level files are pointed at the pages that show them */
+function repoDoc(source: string): Html {
+  const pages: Record<string, string> = { 'README.md': '/how-it-works', 'STATE.md': '/state', 'CHANGELOG.md': '/changelog' };
+  const linked = source.replace(/\]\((README|STATE|CHANGELOG)\.md\)/g, (_m, name: string) => `](${pages[`${name}.md`]})`);
+  return html`<div class="doc">${markdown(linked)}</div>`;
+}
+
+export function statePage(): Html {
+  return repoDoc(commons().docs.state);
+}
+
+export function changelogPage(): Html {
+  return repoDoc(commons().docs.changelog);
+}
+
 export function agentsPage(): Html {
   const c = commons();
   const blurbs: Record<string, string> = {

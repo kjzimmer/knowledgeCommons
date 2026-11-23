@@ -17,7 +17,8 @@ import {
 } from '../site/pages/knowledge';
 import { contributePage, growthPage, reviewPage } from '../site/pages/process';
 import {
-  agentPage, agentsPage, changesPage, costsPage, fundingPage, howItWorksPage, interfacePage, permissionsPage, sessionsPage,
+  agentPage, agentsPage, changelogPage, changesPage, costsPage, fundingPage, howItWorksPage, interfacePage, permissionsPage,
+  sessionsPage, statePage,
 } from '../site/pages/transparency';
 
 const router = Router();
@@ -67,6 +68,8 @@ router.get('/agents/:id', (req, res) => {
 });
 router.get('/costs', async (req, res) => send(req, res, 'Costs', await costsPage()));
 router.get('/funding', (req, res) => send(req, res, 'Funding', fundingPage()));
+router.get('/state', (req, res) => send(req, res, 'State of the commons', statePage()));
+router.get('/changelog', (req, res) => send(req, res, 'Changelog', changelogPage()));
 router.get('/changes', async (req, res) => send(req, res, 'Changes', await changesPage()));
 router.get('/permissions', (req, res) => send(req, res, 'Permissions', permissionsPage()));
 router.get('/interface', (req, res) => send(req, res, 'Interface', interfacePage()));

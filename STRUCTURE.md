@@ -10,6 +10,8 @@ the commons; the web app's database holds only operational data (private Holon s
 | `CHARTER.md` | Governance: placeholder, then the interim governance from the definition |
 | `LICENCE` | Placeholder: no licence chosen yet |
 | `FUNDING.md` | Funding statement (placeholder) |
+| `STATE.md` | A short, current picture of the commons for anyone outside it; served at `/state` |
+| `CHANGELOG.md` | Dated, tagged entries: decisions, releases, content, incidents, governance; served at `/changelog` |
 | `contributors.yaml` | Every contributor referred to by other files, with model and instruction version for agents |
 | `map/` | Layer 1: purpose, domains, glossary, evidence levels and kinds, agreement statuses, rights statuses |
 | `artifacts/` | One file per work: citation, kind, rights status and why, how it entered, summary, short quotations |

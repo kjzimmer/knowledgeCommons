@@ -58,7 +58,8 @@ hr { border: 0; border-top: 1px solid var(--rule); margin: 2.5rem 0; }
 .wrap { max-width: 900px; margin: 0 auto; padding: 0 16px; }
 .narrow { max-width: 560px; margin: 4rem auto; padding: 0 16px; }
 .banner { background: var(--warn-soft); color: var(--ink); font-size: .85rem; padding: .45rem 16px; text-align: center; border-bottom: 1px solid var(--rule); }
-header.site { border-bottom: 1px solid var(--rule); background: var(--surface); }
+header.site { border-bottom: 1px solid var(--rule); background: var(--surface); position: sticky; top: 0; z-index: 10; }
+html { scroll-padding-top: 7rem; } /* keep #anchor targets clear of the sticky header */
 .header-row { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; padding-top: .9rem; flex-wrap: wrap; }
 .brand { text-decoration: none; color: var(--ink); display: flex; flex-direction: column; }
 .brand .ph { font-family: var(--serif); font-size: 1.3rem; font-style: normal; color: var(--ink); background: none; padding: 0; }

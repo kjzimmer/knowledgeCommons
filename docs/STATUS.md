@@ -2,6 +2,37 @@
 
 ## Resume here
 
+### Change brief 0.1: the question loop (2026-11-23)
+
+Karl's change brief 0.1 and its design documents are in `docs/incoming/changeBrief_v0_1/`. Karl's answers to my
+first questions are in `ChangeBrief_v0_1_Answers.md` there; they override the brief where they differ (notably the
+order of work: one seed question end to end right after the foundations).
+
+- **Stage 0 is done and committed:** the report `docs/reports/2026-11-23-stage0.md`, `STATE.md` and
+  `CHANGELOG.md` (served at `/state` and `/changelog`, linked in the footer). Karl agreed to all five
+  recommendations in the report's section 6: exports pulled by a local script and committed by a person; a
+  one-time seeding allowance (~$20) on the Costs page; **Q6 (polycrisis) goes first**; `knowledge-and-copyright`
+  stays with the governance questions.
+- **Karl will create the keys as work proceeds:** a new `ANTHROPIC_API_KEY` (plus `ANTHROPIC_KEY_EXPIRES`) and a
+  Resend key for the monitor; also the R2 bucket and its credentials as Railway variables on `livingSystems`.
+- **Next:** Stage 1, the foundations (requirements, decision drafts 0001 to 0007 and R2, traceability script,
+  agent specs and folder renames, the monitor, budget shares). From then on, `STATE.md` and `CHANGELOG.md` are
+  updated at the end of every session that changes something, alongside this file.
+
+### Ops update 2026-11-17
+
+A Railway security incident (2026-10-21 to 10-23; full log in the AA repo,
+`docs/wip/railway-incident-2026-10.md`) revoked every provider key in Railway. For the commons:
+
+- **Holon is likely offline.** The Anthropic key it used (…zwAA) was deleted and, as of 2026-10-23, not replaced.
+  Fix: create a new key in the Claude Console (Default scope, longer expiry) and set `ANTHROPIC_API_KEY` on
+  `livingSystems`. The 2026-11-19 expiry below no longer applies.
+- **Rotated and verified 2026-10-23:** `REVIEW_LINK_SECRET` (every earlier reviewer link stopped working) and AA's
+  site key (commons `SITE_KEYS` = AA staging `COMMONS_SITE_KEY`). New links for Karl (steward), Hans Prahl and
+  Natalie were issued; the new steward link and AA → commons link-through work.
+- The commons' Postgres was already private (no public proxy).
+- No commons code or content changed between 2026-10-20 and 2026-11-17.
+
 *Updated 2026-10-20 (end of the first build session).*
 
 The concept demo is **built, deployed and working**, including a live Holon. Karl is testing it next and will
@@ -54,10 +85,15 @@ AI-drafted and unreviewed. Only the commons' own definition is held in full text
 
 1. **Public access.** Karl may mirror AA: a simple teaser on production and the full demo on a staging
    environment behind reviewer links. Needs a second Railway environment (or a mode switch like AA's `SITE_MODE`).
-2. **Domain.** Karl would like a `.commons` domain; no such top-level domain is known to exist. Undecided.
-3. Everything listed in the definition's open questions (`questions/` in this repo): name, licence, charter,
+2. **How all of the commons is kept (open, to come back to later; Karl, 2026-11-23).** Everything beyond the
+   artifact files in R2: knowledge, the database, app code, configuration and whatever else the app needs to run.
+   The app must run efficiently, nothing may be lost if the app or its host disappears, and anyone must be able to
+   fork the whole commons. Decision 0007 (database for dialog data, plain files for readings, nightly full export)
+   is interim; build the export as a complete, self-describing bundle so this question stays open.
+3. **Domain.** Karl would like a `.commons` domain; no such top-level domain is known to exist. Undecided.
+4. Everything listed in the definition's open questions (`questions/` in this repo): name, licence, charter,
    funding of the AI budget, agreement statuses, experiential knowledge, copyright, legal entity.
-4. Brief §0 placeholders still open: stewards, funding statement, monthly budget, reviewed seed list, which AA
+5. Brief §0 placeholders still open: stewards, funding statement, monthly budget, reviewed seed list, which AA
    question gets the facilitator (Claude picked `global-problems-many-centers`), reviewer identity method.
 
 ## Roadmap

@@ -237,6 +237,8 @@ export function loadContent(): LoadResult {
       licence: read('LICENCE'),
       funding: read('FUNDING.md'),
       structure: read('STRUCTURE.md'),
+      state: read('STATE.md'),
+      changelog: read('CHANGELOG.md'),
     },
     growth: {
       budget: readYaml('growth/budget.yaml'),

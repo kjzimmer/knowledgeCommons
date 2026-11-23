@@ -17,6 +17,8 @@ const NAV: [string, string][] = [
 
 const TRANSPARENCY: [string, string][] = [
   ['/how-it-works', 'The definition'],
+  ['/state', 'State'],
+  ['/changelog', 'Changelog'],
   ['/agents', 'Agents'],
   ['/costs', 'Costs'],
   ['/funding', 'Funding'],

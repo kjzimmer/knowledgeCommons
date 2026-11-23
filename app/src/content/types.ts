@@ -125,7 +125,7 @@ export interface CommonsContent {
     rightsStatuses: (Named & { fullText: boolean })[];
     glossary: { term: string; meaning: string }[];
   };
-  docs: { readme: string; charter: string; licence: string; funding: string; structure: string };
+  docs: { readme: string; charter: string; licence: string; funding: string; structure: string; state: string; changelog: string };
   growth: { budget: Record<string, unknown>; watchlist: Record<string, unknown>; seedList: Record<string, unknown> };
   permissions: Record<string, unknown>;
   tests: { holon: Record<string, unknown>; auditor: Record<string, unknown> };
