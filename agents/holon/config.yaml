@@ -1,6 +1,8 @@
-# Holon's model settings. The provider interface reads this; agent code does not name a provider.
+# Holon's settings: provider, model and limits. The provider interface reads this; agent code does not name a
+# provider. A role is running only when its status is "running".
 roles:
   ask:
+    status: running
     provider: anthropic
     model: claude-sonnet-5-5
     effort: medium

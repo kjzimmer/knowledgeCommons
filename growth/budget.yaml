@@ -1,18 +1,28 @@
-# The commons' monthly AI budget and its allocations, set by the stewards. Draft values (brief v0.2, section 15).
+# The commons' monthly AI budget and its shares, set by the stewards. Draft values: change brief 0.1, section 13,
+# confirmed by Karl on 2026-11-23.
+#
+# Each share covers the model calls of the agent roles listed under it (a call's role is "<agent>.<what>", e.g.
+# "holon.ask"). Calls served for the seeding allowance are counted against the allowance, not the shares.
 monthlyBudgetUsd: 50
-allocations:
-  answering: 40
-  auditing: 15
-  curation: 25
-  discovery: 5
-  questionMining: 5
-  analysis: 10
-priority: [answering, auditing, curation, discovery, questionMining, analysis]
+shares:
+  holon: { percent: 30, label: "Answering people (Holon)", agents: [holon] }
+  curation: { percent: 25, label: "Curation (readings, extraction)", agents: [curator] }
+  audit: { percent: 15, label: "Audit", agents: [auditor] }
+  challenge: { percent: 10, label: "Challenge", agents: [challenger] }
+  facilitation: { percent: 10, label: "Facilitation", agents: [facilitator] }
+  scouting: { percent: 10, label: "Scouting (acquisition)", agents: [scout] }
+# Calls by agents not in any share (today only the monitor's one-line checks, a fraction of a cent each)
+otherLabel: "Operations (the monitor's checks)"
+priority: [holon, audit, curation, challenge, facilitation, scouting]
 rules:
-  - "When a share is used up, that loop pauses until next month."
-  - "Nothing is applied without its audit: if the audit share is used up, proposals wait."
+  - "When a share is used up, that work pauses until next month."
+  - "Nothing counts without its audit: if the audit share is used up, readings and revisions wait unaudited."
   - "Unused shares are not carried over in the draft."
-  - "When the review queue holds more than 50 unreviewed items, curation, question mining and analysis pause."
+# A one-time allowance for the first readings of the fifteen seed questions (Karl, 2026-11-23), outside the shares
+seedingAllowance:
+  usd: 20
+  servedFor: seeding
+  about: "The first readings of the fifteen seed questions, each drafted, challenged and audited once."
 fairUse:
   holonQuestionsPerReviewerPerDay: 30
   dailySpendCeilingUsd: 2

@@ -38,6 +38,12 @@ function mdFiles(dir: string): string[] {
   return fs.readdirSync(abs).filter((f) => f.endsWith('.md')).sort().map((f) => `${dir}/${f}`);
 }
 
+/** The order agents are listed in: the knowledge agents in the order of the question loop, then the app team */
+const AGENT_ORDER = [
+  'holon', 'curator', 'challenger', 'auditor', 'facilitator', 'scout',
+  'requirements', 'monitor', 'coding', 'code-reviewer', 'support', 'improvement', 'administration',
+];
+
 const str = (v: unknown): string => (v == null ? '' : String(v).trim());
 const arr = <T = string>(v: unknown): T[] => (Array.isArray(v) ? (v as T[]) : []);
 
@@ -206,22 +212,54 @@ export function loadContent(): LoadResult {
     questions.set(q.id, q);
   }
 
-  // Agents
+  // Agents: every folder in agents/ with a spec.md (development standard, section 5)
   const agents = new Map<string, Agent>();
-  for (const id of ['holon', 'curator', 'auditor']) {
+  const agentDirs = fs.existsSync(path.join(REPO_ROOT, 'agents'))
+    ? fs.readdirSync(path.join(REPO_ROOT, 'agents'), { withFileTypes: true }).filter((d) => d.isDirectory()).map((d) => d.name)
+    : [];
+  const rank = (id: string) => (AGENT_ORDER.indexOf(id) === -1 ? AGENT_ORDER.length : AGENT_ORDER.indexOf(id));
+  agentDirs.sort((a, b) => rank(a) - rank(b) || a.localeCompare(b));
+  for (const id of agentDirs) {
     const dir = `agents/${id}`;
-    const { data, body } = frontMatter(`${dir}/instructions.md`);
-    agents.set(id, {
+    if (!exists(`${dir}/spec.md`)) {
+      errors.push(`${dir}: missing spec.md`);
+      continue;
+    }
+    const spec = frontMatter(`${dir}/spec.md`);
+    const ins = exists(`${dir}/instructions.md`) ? frontMatter(`${dir}/instructions.md`) : null;
+    const testFiles = fs.existsSync(path.join(REPO_ROOT, dir, 'tests'))
+      ? fs.readdirSync(path.join(REPO_ROOT, dir, 'tests')).filter((f) => f.endsWith('.yaml')).sort()
+      : [];
+    const a: Agent = {
       id,
-      version: str(data.version),
-      updated: str(data.updated),
-      note: data.note ? str(data.note) : undefined,
-      instructions: body,
-      modelSettings: readYaml(`${dir}/model.yaml`),
+      name: str(spec.data.name),
+      kind: str(spec.data.kind) === 'app-team' ? 'app-team' : 'knowledge',
+      status: (['running', 'specified', 'later'].includes(str(spec.data.status)) ? str(spec.data.status) : 'specified') as Agent['status'],
+      summary: str(spec.data.summary),
+      parents: arr(spec.data.parents).map(str),
+      source: str(spec.data.source),
+      spec: spec.body,
+      version: ins ? str(ins.data.version) : null,
+      updated: ins ? str(ins.data.updated) : null,
+      note: ins?.data.note ? str(ins.data.note) : undefined,
+      instructions: ins ? ins.body : null,
+      config: exists(`${dir}/config.yaml`) ? readYaml(`${dir}/config.yaml`) : null,
       testedOn: exists(`${dir}/tested-on.yaml`) ? readYaml(`${dir}/tested-on.yaml`) : null,
-      history: exists(`${dir}/history.md`) ? read(`${dir}/history.md`) : '',
-    });
+      tests: testFiles.map((f) => ({ file: `${dir}/tests/${f}`, data: readYaml(`${dir}/tests/${f}`) })),
+      changelog: exists(`${dir}/CHANGELOG.md`) ? read(`${dir}/CHANGELOG.md`) : '',
+    };
+    if (str(spec.data.id) !== id) errors.push(`${dir}/spec.md: id must match the folder name`);
+    if (!a.name) errors.push(`${dir}/spec.md: missing name`);
+    if (!['knowledge', 'app-team'].includes(str(spec.data.kind))) errors.push(`${dir}/spec.md: kind must be knowledge or app-team`);
+    if (!['running', 'specified', 'later'].includes(str(spec.data.status))) errors.push(`${dir}/spec.md: status must be running, specified or later`);
+    if (!a.summary) errors.push(`${dir}/spec.md: missing summary`);
+    if (a.parents.length === 0) errors.push(`${dir}/spec.md: no parents (every specification traces to L1 principles)`);
+    for (const p of a.parents) if (!/^(P-\d{2}|SYS-[A-Z]+-\d{3})$/.test(p)) errors.push(`${dir}/spec.md: parent "${p}" is not a principle or system standard id`);
+    if (ins && !a.version) errors.push(`${dir}/instructions.md: missing version`);
+    if (a.status === 'running' && !ins) errors.push(`${dir}: a running agent needs instructions.md`);
+    agents.set(id, a);
   }
+  if (!agents.has('holon')) errors.push('agents/holon: Holon is missing');
 
   const content: CommonsContent = {
     artifacts,
@@ -246,7 +284,6 @@ export function loadContent(): LoadResult {
       seedList: readYaml('growth/seed-list.yaml'),
     },
     permissions: readYaml('permissions/log.yaml'),
-    tests: { holon: readYaml('tests/holon.yaml'), auditor: readYaml('tests/auditor.yaml') },
     demo: { proposals: readYaml('demo/proposals.yaml'), growth: readYaml('demo/growth.yaml') },
     prices: readYaml('config/prices.yaml'),
   };
@@ -254,6 +291,7 @@ export function loadContent(): LoadResult {
 }
 
 let cached: CommonsContent | null = null;
+let cachedErrors: string[] = [];
 
 /** The loaded commons. Logs validation errors once; the check script fails on them instead */
 export function commons(): CommonsContent {
@@ -261,6 +299,13 @@ export function commons(): CommonsContent {
     const { content, errors } = loadContent();
     for (const e of errors) console.warn(`[content] ${e}`);
     cached = content;
+    cachedErrors = errors;
   }
   return cached;
+}
+
+/** Validation errors from loading the content this app is running with (the monitor reports them) */
+export function contentErrors(): string[] {
+  commons();
+  return cachedErrors;
 }

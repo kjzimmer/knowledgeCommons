@@ -24,9 +24,17 @@ with AA's side of the status in `abundanceArchitecture/docs/wip/knowledge-common
 ## Layout
 
 See `STRUCTURE.md`. In short: content as plain files (`map/`, `artifacts/`, `entries/`, `questions/`,
-`agents/`, `tests/`, `growth/`, `permissions/`, `demo/` for labelled sample data), the web app in `app/`
-(Express 5 + TypeScript, server-rendered pages), and `prisma/` for operational data only (Holon sessions, the
-model-call log, gap notes). **Knowledge lives in files; the database never holds knowledge.**
+`agents/`, `growth/`, `permissions/`, `demo/` for labelled sample data), requirements and decisions
+(`requirements/`, `decisions/`, `tests/acceptance.yaml`), the web app in `app/` (Express 5 + TypeScript,
+server-rendered pages), and `prisma/` for the database. **Plain files are the canonical record of knowledge;
+operational and dialog data live in the database with full exports** (decision 0007, interim: how the whole
+commons is kept is an open question in `docs/STATUS.md`).
+
+**Change brief 0.1** (the question loop) is the current work: `docs/incoming/changeBrief_v0_1/` with Karl's
+answers, built in stages with his go-ahead at each. Its development standard is `requirements/00-standard.md`:
+requirements in EARS form with parents and tests; every agent has `agents/<name>/spec.md`, `config.yaml`,
+`CHANGELOG.md`, and `instructions.md` and `tests/` once it runs. When the brief and the design documents disagree,
+the design documents win; when they disagree with each other or with what is built, stop and ask.
 
 | Code | What it does |
 |---|---|
@@ -36,7 +44,11 @@ model-call log, gap notes). **Knowledge lives in files; the database never holds
 | `app/src/holon/anthropic.ts` | Anthropic provider (prompt caching, `fallbacks: "default"` refusal fallback) |
 | `app/src/holon/holon.ts` | Holon ask mode: system prompt (instructions + layer-1 map + entry index), tools, loop, sessions |
 | `app/src/holon/usage.ts` | Cost per call from `config/prices.yaml`, call log, fair-use limits |
-| `app/src/routes/pages.ts` | Reviewer pages and `POST /ask` |
+| `app/src/ops/scheduler.ts` | In-process job runner; every run recorded in `JobRun` (decision 0006) |
+| `app/src/ops/monitor.ts` | The monitor's checks and email alerts (Resend); results in `MonitorRun`, shown on `/operations` |
+| `app/src/ops/budget.ts` | Budget shares from `growth/budget.yaml` and month-to-date spend per share |
+| `app/src/scripts/check-trace.ts` | Traceability check; writes `requirements/traceability.md` |
+| `app/src/routes/pages.ts` | Reviewer pages, `POST /ask`, `POST /operations/run` (steward) |
 | `app/src/routes/api.ts` | Public interface `/api/v1` (site keys) |
 | `app/src/site/pages/*.ts` | One file per group of pages |
 | `app/public/` | `style.css`, `ask.js` |
@@ -45,6 +57,8 @@ model-call log, gap notes). **Knowledge lives in files; the database never holds
 
 ```
 npm run content:check                     # validate all content files (run before committing content)
+npm run trace:check                       # requirements traceability (run after editing requirements/, tests/acceptance.yaml, agents/*/spec.md)
+npm test                                  # automated acceptance tests (Node's test runner; no database needed)
 npm run typecheck
 npm run dev                               # needs .env (see .env.example); port 3100
 npm run review:link -- --name "X" --email x@y.z [--steward]
@@ -61,8 +75,10 @@ internal-only database: `railway run --service livingSystems -- bash -c 'DATABAS
   (invite-only, noindex).
 - `railway.toml`: nixpacks, `npm run build` (prisma generate + tsc), start runs `prisma migrate deploy` first.
 - Variables: `ANTHROPIC_API_KEY`, `DATABASE_URL`, `REVIEW_LINK_SECRET`, `PUBLIC_BASE_URL`, `SITE_KEYS`
-  (`Abundance Architecture=<key>`), `NODE_ENV=production`. Optional: `ANTHROPIC_WORKSPACE_ID`, `HOLON_MODEL`,
-  `DAILY_SPEND_CEILING_USD`, `COMMONS_REPO`, `COMMONS_BRANCH`.
+  (`Abundance Architecture=<key>`), `NODE_ENV=production`. For the monitor: `ANTHROPIC_KEY_EXPIRES`
+  (YYYY-MM-DD, set with each new key), `RESEND_API_KEY`, `MONITOR_ALERT_TO` (Karl's address; never in the repo),
+  optional `MONITOR_ALERT_FROM`. Optional: `ANTHROPIC_WORKSPACE_ID`, `HOLON_MODEL`, `DAILY_SPEND_CEILING_USD`,
+  `COMMONS_REPO`, `COMMONS_BRANCH`, `SCHEDULER=off`. Karl sets keys and secrets himself.
 - Never print secrets. To copy a value between services, read it into a shell variable and pass it on.
 - AA staging (`draft.abundancearchitecture.world`) holds `COMMONS_URL` and `COMMONS_SITE_KEY` (the same key as in
   `SITE_KEYS`).
@@ -87,4 +103,6 @@ internal-only database: `railway run --service livingSystems -- bash -c 'DATABAS
 - Railway skips devDependencies with `NODE_ENV=production`, so build tools are in `dependencies`.
 - Karl decides quickly when given a clear recommendation with trade-offs; he adds documentation incrementally.
   He wants changes staged before production (see the open question on access in `docs/STATUS.md`).
-- Keep `docs/STATUS.md` current at the end of each working session.
+- At the end of each working session that changes something, update `docs/STATUS.md` (the working log) and
+  `STATE.md` and `CHANGELOG.md` (the commons' public face, written for outsiders).
+- Pushing `feat/concept-demo` deploys the draft site; commit and push only when Karl says so.

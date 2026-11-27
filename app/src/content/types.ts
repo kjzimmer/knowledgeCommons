@@ -88,16 +88,31 @@ export interface Question {
   file: string;
 }
 
+/** One agent's folder, `agents/<id>/`, laid out as the development standard (section 5) sets */
 export interface Agent {
   id: string;
-  version: string;
-  updated: string;
+  name: string;
+  kind: 'knowledge' | 'app-team';
+  /** running | specified (to be built) | later (specification only) */
+  status: 'running' | 'specified' | 'later';
+  summary: string;
+  /** The L1 principles (and later L2 standards) the specification traces to */
+  parents: string[];
+  source: string;
+  /** spec.md body: purpose, does, never, memory, checked by, people, tests */
+  spec: string;
+  /** From instructions.md, when the agent has instructions yet */
+  version: string | null;
+  updated: string | null;
   note?: string;
-  /** Instructions text, verbatim (the Markdown body) */
-  instructions: string;
-  modelSettings: unknown;
+  /** Instructions text, verbatim (the Markdown body), or null for a specification-only agent */
+  instructions: string | null;
+  /** config.yaml: provider, model, limits */
+  config: Record<string, unknown> | null;
   testedOn: unknown;
-  history: string;
+  /** tests/*.yaml: the agent's test set */
+  tests: { file: string; data: Record<string, unknown> }[];
+  changelog: string;
 }
 
 export interface Named {
@@ -128,7 +143,6 @@ export interface CommonsContent {
   docs: { readme: string; charter: string; licence: string; funding: string; structure: string; state: string; changelog: string };
   growth: { budget: Record<string, unknown>; watchlist: Record<string, unknown>; seedList: Record<string, unknown> };
   permissions: Record<string, unknown>;
-  tests: { holon: Record<string, unknown>; auditor: Record<string, unknown> };
   demo: { proposals: Record<string, unknown>; growth: Record<string, unknown> };
   prices: Record<string, unknown>;
 }

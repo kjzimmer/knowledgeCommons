@@ -4,6 +4,7 @@
 import { commons } from '../../content/load';
 import { html, Html } from '../../lib/html';
 import prisma, { dbConfigured } from '../../lib/db';
+import { budget, spend } from '../../ops/budget';
 import { usd } from '../ui';
 
 export function contributePage(): Html {
@@ -89,41 +90,40 @@ interface Candidate { title: string; why: string; score: number }
 
 export async function growthPage(): Promise<Html> {
   const c = commons();
-  const budget = c.growth.budget as { monthlyBudgetUsd?: number; allocations?: Record<string, number>; priority?: string[]; rules?: string[] };
+  const b = budget();
+  const spent = await spend();
   const g = c.demo.growth as { loops?: Loop[]; candidates?: Candidate[]; fundingEstimates?: { note: string; perTenDollars: Record<string, number> } };
   const seed = (c.growth.seedList.works ?? []) as { citation: string; artifact?: string; likely: string }[];
   const watch = (c.growth.watchlist.watch ?? []) as { area: string; terms: string[]; feeds: string[] }[];
-  const total = Number(budget.monthlyBudgetUsd) || 0;
 
-  let monthSpend = 0;
   let gaps: { note: string; count: number }[] = [];
   let shared = 0;
   if (dbConfigured()) {
-    const start = new Date();
-    start.setUTCDate(1);
-    start.setUTCHours(0, 0, 0, 0);
-    const [s, grouped, sharedCount] = await Promise.all([
-      prisma.modelCall.aggregate({ _sum: { costUsd: true }, where: { createdAt: { gte: start }, role: 'holon.ask' } }),
+    const [grouped, sharedCount] = await Promise.all([
       prisma.gapNote.groupBy({ by: ['note'], where: { source: 'holon' }, _count: { note: true }, orderBy: { _count: { note: 'desc' } }, take: 30 }),
       prisma.gapNote.count({ where: { source: 'shared-question' } }),
     ]);
-    monthSpend = s._sum.costUsd ?? 0;
     gaps = grouped.map((r) => ({ note: r.note, count: r._count.note }));
     shared = sharedCount;
   }
-  const answeringShare = ((budget.allocations?.answering ?? 0) / 100) * total;
-  const labels: Record<string, string> = { answering: 'Answering people (Holon)', auditing: 'Auditing', curation: 'Curation', discovery: 'Discovery', questionMining: 'Question mining', analysis: 'Analysis' };
+  const running = new Set([...c.agents.values()].filter((a) => a.status === 'running').map((a) => a.id));
 
   return html`
 <h1>Growth</h1>
 <p class="lede">On day one the commons holds only what was seeded. It grows through five loops (acquisition, discovery, curation, question mining and Holon's analysis), each a scheduled job that records everything it does and stops when its share of the budget is used. People review everything before it is applied.</p>
 
 <h2>The budget</h2>
-<p>Monthly budget for the commons' AI work: <strong>${usd(total)}</strong> (draft value, set by the stewards in <code>growth/budget.yaml</code>). When money runs short, answering people comes first, then auditing, then curation, then the rest. Nothing is applied without its audit.</p>
-<table class="table">
-  <thead><tr><th>Share</th><th>%</th><th>Per month</th><th>Spent this month</th></tr></thead>
-  <tbody>${Object.entries(budget.allocations ?? {}).map(([k, pct]) => html`<tr><td>${labels[k] ?? k}</td><td>${pct}%</td><td>${usd((pct / 100) * total)}</td><td>${k === 'answering' ? html`${usd(monthSpend)} <span class="muted">(live)</span>${monthSpend >= answeringShare && answeringShare > 0 ? html` <span class="badge warn">Paused for budget</span>` : ''}` : html`<span class="muted">not running</span>`}</td></tr>`)}</tbody>
-</table>
+<p>Monthly budget for the commons' AI work: <strong>${usd(b.monthlyUsd)}</strong> (draft value, set by the stewards in <code>growth/budget.yaml</code>). When money runs short, answering people comes first, then auditing, then curation, then the rest. Nothing counts without its audit: if the audit share is used up, readings and revisions wait unaudited.</p>
+<div class="scroll"><table class="table">
+  <thead><tr><th>Share</th><th>%</th><th>Per month</th><th>Spent this month <span class="muted">(live)</span></th></tr></thead>
+  <tbody>${b.shares.map((s) => {
+    const used = spent.byShare[s.id] ?? 0;
+    const live = s.agents.some((a) => running.has(a));
+    return html`<tr><td>${s.label}</td><td>${s.percent}%</td><td>${usd(s.usd)}</td><td>${usd(used)}${!live && used === 0 ? html` <span class="muted">not running yet</span>` : ''}${s.usd > 0 && used >= s.usd ? html` <span class="badge warn">Paused for budget</span>` : ''}</td></tr>`;
+  })}
+  <tr><td>${b.otherLabel}</td><td>—</td><td>—</td><td>${usd(spent.byShare.other ?? 0)}</td></tr></tbody>
+</table></div>
+${b.seeding ? html`<p><strong>Seeding allowance:</strong> a one-time ${usd(b.seeding.usd)}, outside the monthly shares, for ${b.seeding.about.charAt(0).toLowerCase()}${b.seeding.about.slice(1)} Used so far: ${usd(spent.seeding)}.</p>` : ''}
 <p class="sample-note"><strong>What more funding buys (illustrative).</strong> ${g.fundingEstimates?.note ?? ''} Each additional $10 a month would buy about ${g.fundingEstimates?.perTenDollars.artifactsCurated ?? '?'} artifacts curated, ${g.fundingEstimates?.perTenDollars.analysesRun ?? '?'} analyses run, or ${g.fundingEstimates?.perTenDollars.questionsAnswered ?? '?'} questions answered.</p>
 
 <h2>The loops</h2>

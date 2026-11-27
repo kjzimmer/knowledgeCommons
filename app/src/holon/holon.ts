@@ -18,7 +18,7 @@ interface AskSettings {
 }
 
 export function askSettings(): AskSettings {
-  const roles = (commons().agents.get('holon')!.modelSettings as { roles?: Record<string, Partial<AskSettings>> }).roles ?? {};
+  const roles = (commons().agents.get('holon')!.config as { roles?: Record<string, Partial<AskSettings>> } | null)?.roles ?? {};
   const s = roles.ask ?? {};
   return {
     provider: s.provider ?? 'anthropic',
@@ -49,7 +49,7 @@ export function buildSystemPrompt(): string {
   const questionIndex = [...c.questions.values()].map((q) => `- \`${q.id}\` ${q.question}`).join('\n');
 
   systemPrompt = [
-    c.agents.get('holon')!.instructions,
+    c.agents.get('holon')!.instructions ?? '',
     '# The commons: layer 1 (always loaded)',
     '## Purpose',
     c.map.purpose,

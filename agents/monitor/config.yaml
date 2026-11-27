@@ -1,0 +1,10 @@
+# The monitor's settings. It is code; it calls models only to check that they answer (role monitor.ping).
+schedule:
+  everyHours: 6
+checks:
+  keyExpiryWarningDays: 14
+  budgetWarningShare: 0.8
+  jobLateAfterIntervals: 2
+alerts:
+  channel: email (Resend)
+  repeatSameFailuresAfterHours: 24

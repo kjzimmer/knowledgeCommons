@@ -11,6 +11,8 @@
     "start": "node app/dist/index.js",
     "dev": "tsx watch --env-file .env app/src/index.ts",
     "content:check": "tsx app/src/scripts/check-content.ts",
+    "trace:check": "tsx app/src/scripts/check-trace.ts",
+    "test": "tsx --test app/src/ops/monitor.test.ts app/src/site/pages/pages.test.ts",
     "review:link": "tsx app/src/scripts/review-link.ts",
     "ask": "tsx app/src/scripts/ask.ts",
     "typecheck": "tsc -p app --noEmit"

@@ -1,0 +1,6 @@
+# The curator's settings: provider, model and limits. A role is running only when its status is "running".
+roles:
+  curate:
+    status: not running yet (change brief 0.1, stage 3)
+    provider: anthropic
+    model: claude-sonnet-5-5

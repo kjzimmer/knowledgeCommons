@@ -15,9 +15,37 @@ order of work: one seed question end to end right after the foundations).
   stays with the governance questions.
 - **Karl will create the keys as work proceeds:** a new `ANTHROPIC_API_KEY` (plus `ANTHROPIC_KEY_EXPIRES`) and a
   Resend key for the monitor; also the R2 bucket and its credentials as Railway variables on `livingSystems`.
-- **Next:** Stage 1, the foundations (requirements, decision drafts 0001 to 0007 and R2, traceability script,
-  agent specs and folder renames, the monitor, budget shares). From then on, `STATE.md` and `CHANGELOG.md` are
-  updated at the end of every session that changes something, alongside this file.
+- **Stage 1 (foundations) is built, 2026-11-27.** Waiting for Karl's go-ahead for stage 2.
+  - `requirements/`: the standard (`00-standard.md`, with the record format in section 9), principles P-01 to P-11,
+    L2 stubs, and 134 L3 requirements for this slice in EARS form. `tests/acceptance.yaml` holds 100 L4 tests:
+    9 automated ones pass (`npm test`), and 7 manual ones carried over from the demo pass. `npm run trace:check`
+    passes and writes `requirements/traceability.md`.
+  - `decisions/`: 0001 to 0007 and 0010, all proposed, each with a recommendation; 0008 and 0009 are reserved
+    numbers, not drafted. **Karl decides each.**
+  - Agents: the files are renamed (`config.yaml`, `CHANGELOG.md`, `tests/`). There is a `spec.md` for all 13
+    agents. Config files exist for the challenger, facilitator, scout and monitor. The auditor's model is set per
+    kind of work. The loader finds agents by folder; `/agents` shows specs.
+  - The monitor (`app/src/ops/monitor.ts`, `agents/monitor/`) runs every 6 hours through the in-process scheduler
+    (`app/src/ops/scheduler.ts`; tables `JobRun` and `MonitorRun`, migration `20261127000000_jobs_and_monitor`).
+    Results are on `/operations`, where a steward can also run the checks now. Email goes through Resend.
+  - Budget shares are in `growth/budget.yaml` and `app/src/ops/budget.ts`, shown live on `/growth`.
+  - `CLAUDE.md`, `STRUCTURE.md` and `.env.example` are updated, including the new knowledge rule (decision 0007).
+- **Karl to set on `livingSystems`:** `ANTHROPIC_API_KEY` + `ANTHROPIC_KEY_EXPIRES` (YYYY-MM-DD), `RESEND_API_KEY`
+  + `MONITOR_ALERT_TO` + `MONITOR_ALERT_FROM` (an `@abundancearchitecture.world` address; see below). Until
+  they're set, the monitor shows failures (key, model) and a warning (alerts) on `/operations`.
+- **Temporary (Karl, 2026-11-27): alert email is sent through Karl's existing Resend account, with a
+  sending-only key restricted to `abundancearchitecture.world`.** Good enough for prototyping and demos before
+  real users; it ties the commons' operations to AA's domain and to an account shared with other projects. Undo
+  when the commons settles (Karl expects to know within about a month): move to an AA subdomain or the commons'
+  own domain, ideally in a Resend account of the commons' own, then change `RESEND_API_KEY` and
+  `MONITOR_ALERT_FROM` (no code change). Longer term, the Anthropic key should also be linked to a service account
+  in a dedicated workspace, in an organization the commons owns with at least two admins; to become a decision
+  record when the commons becomes its own entity.
+- **Not verified on the live site yet:** the scheduled run, the model check and the email (T-MON-001, T-MON-003,
+  T-MON-007-live). Run them once the keys are in.
+- **Next, stage 2:** record mode (`RECORD_MODE`, banner, wipe), the question record in Postgres (draft
+  `requirements/20-system/data-model.md` first), the R2 client and access rules (needs Karl's bucket), the export.
+  Before the question page (stage 3): the design-system first pass (decision 0005) for Karl to review.
 
 ### Ops update 2026-11-17
 

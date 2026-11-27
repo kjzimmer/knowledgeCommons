@@ -1,0 +1,18 @@
+# The auditor's settings: provider, model and limits. The provider interface reads this; agent code does not name
+# a provider. A role is running only when its status is "running".
+#
+# The auditor's model is set per kind of work it checks, and never matches the model whose work it checks
+# (answers to change brief 0.1, C). The test results decide whether these defaults stay.
+roles:
+  audit:
+    status: not running yet (change brief 0.1, stage 3)
+    provider: anthropic
+    checks:
+      # Work made by Sonnet (curator readings, Holon's dialog posts) is audited by Opus
+      curator-reading: { model: claude-opus-5-5, checks-work-of: claude-sonnet-5-5 }
+      holon-post: { model: claude-opus-5-5, checks-work-of: claude-sonnet-5-5 }
+      # Work made by Opus (the challenger's case) is audited by Sonnet
+      challenge: { model: claude-sonnet-5-5, checks-work-of: claude-opus-5-5 }
+      # Mechanical checks (quotations match the held text, citations resolve) can run on Haiku
+      mechanical: { model: claude-haiku-5-5 }
+rule: "The auditor never runs on the model whose work it checks. Until a second provider is added, these are different Claude models, not different providers, and the Agents page says so."

@@ -67,6 +67,38 @@ model ModelCall {
   @@index([askerEmail, createdAt])
 }
 
+/// One run of a scheduled job (the in-process scheduler, decision 0006). The monitor checks that every job ran
+/// within its expected interval.
+model JobRun {
+  id         String    @id @default(cuid())
+  job        String
+  startedAt  DateTime  @default(now())
+  finishedAt DateTime?
+  /// null while running
+  ok         Boolean?
+  detail     String?
+
+  @@index([job, startedAt])
+}
+
+/// One run of the monitor's checks, with every result. Public on the Operations page; kept through a sandbox wipe.
+model MonitorRun {
+  id         String   @id @default(cuid())
+  startedAt  DateTime @default(now())
+  /// "schedule" or "steward"
+  trigger    String
+  /// true when no check failed (warnings allowed)
+  ok         Boolean
+  /// [{ id, name, result: ok | warn | fail, detail }]
+  results    Json
+  /// Ids of the failed checks, sorted, so a repeat of the same failures can be recognized
+  failing    String[]
+  alertSent  Boolean  @default(false)
+  alertError String?
+
+  @@index([startedAt])
+}
+
 /// Something the commons could not answer. Records only what was missing, never the asker's words, unless they
 /// chose to share their question.
 model GapNote {

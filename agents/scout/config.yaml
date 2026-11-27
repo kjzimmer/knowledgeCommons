@@ -1,0 +1,10 @@
+# The scout's settings. Mostly code; a low-cost model ranks and summarizes. A role is running only when its status
+# is "running".
+roles:
+  rank-and-summarize:
+    status: not running yet (change brief 0.1, stage 3)
+    provider: anthropic
+    model: claude-haiku-5-5
+limits:
+  worksPerDay: 25
+  worksPerMissingNote: 3

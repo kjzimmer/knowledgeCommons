@@ -1,0 +1,129 @@
+# L4: acceptance tests (development standard, section 2; requirements/00-standard.md, section 9).
+# Each test verifies one or more L3 requirements, which name it in their `verification` field. The traceability
+# check (npm run trace:check) fails on a requirement whose test is missing here.
+#
+# kind: automated (code in this repository, run by `npm test`) | harness (an agent test run, results in
+#       agents/<name>/tested-on.yaml) | manual (a person follows the steps)
+# status: planned | written | passing | failing
+tests:
+  # ── Questions and readings ──────────────────────────────────────────────────────────────────────────────
+  - { id: T-QR-001, title: "A question keeps its text, origin, domains, status and followers", kind: automated, status: planned, how: "Create a question of each origin; read it back with all fields." }
+  - { id: T-QR-003, title: "A reading holds points, each with all its fields, plus unknowns and a summary", kind: automated, status: planned, how: "Store a reading of two points with sources and independence notes; read it back whole." }
+  - { id: T-QR-006, title: "A revision keeps the earlier one and records what changed, why, trigger, agent, model, version", kind: automated, status: planned, how: "Revise a reading; both revisions exist and the new one carries every field." }
+  - { id: T-QR-007, title: "An entry cited by a point is labelled as earlier AI-drafted material", kind: automated, status: planned, how: "Render a point citing an entry; the label appears." }
+  - { id: T-QR-008, title: "Governance questions do not enter the loop", kind: automated, status: planned, how: "Create a question about the commons; no curator request is queued." }
+  - { id: T-QR-009, title: "A retired sample question points to its seed question", kind: automated, status: planned, how: "Open /questions/polycrisis-useful; it links to Q6." }
+  - { id: T-QR-010, title: "A new question goes curator, then challenger, then auditor", kind: automated, status: planned, how: "Create a question with the agents replaced by fakes; the three run in order and each gets the previous output." }
+  - { id: T-QR-013, title: "Passing integrity, reasoning and independence makes a point audited", kind: automated, status: planned, how: "Feed an audit result that passes those three with unverifiable provenance; the level is audited." }
+  - { id: T-QR-014, title: "A failed check is shown on the reading and a revision is requested", kind: automated, status: planned, how: "Feed a failed integrity check; the page shows it and a curator request is queued." }
+  - { id: T-QR-016, title: "Provenance is recorded per source and summarized beside the level", kind: automated, status: planned, how: "Point with three sources: one verified, one abstract-only, one unverifiable; shows 'provenance: 1 of 3 sources verified' and the model-knowledge note." }
+  - { id: T-QR-019, title: "Changed points drop to agent's reading; endorsements of the old revision are shown as such", kind: automated, status: planned, how: "Endorse a point, revise it; level and endorsement label change as specified." }
+  - { id: T-QR-021, title: "The endorsed level is shown as not yet active, with the reason", kind: automated, status: planned, how: "Render any question page." }
+  - { id: T-QR-022, title: "A working draft is labelled 'working draft, not yet audited'", kind: automated, status: planned, how: "Render a question with a working draft." }
+  - { id: T-QR-023, title: "New source, endorsement shift, convergence and request each queue a working draft", kind: automated, status: planned, how: "Fire each event; a working-draft request is queued for the question." }
+  - { id: T-QR-026, title: "A recorded revision follows the pause, or a request, through challenger and auditor", kind: automated, status: planned, how: "With a working draft, advance the clock past the pause; then separately request one." }
+  - { id: T-QR-028, title: "A bearing artifact, a new objection or a failed check queue a recorded revision", kind: automated, status: planned, how: "Fire each event." }
+  - { id: T-QR-030, title: "Updates within the window combine; a re-check with nothing new makes no revision", kind: automated, status: planned, how: "Fire three triggers within the window: one update. Run a re-check with no new material: no revision." }
+  - { id: T-QR-032, title: "A question proposed by the curator or challenger enters with its origin", kind: automated, status: planned, how: "Feed an extraction proposing a question." }
+  - { id: T-QR-033, title: "All fifteen seed questions exist with their origins and an audited first reading", kind: manual, status: planned, how: "After stage 4: open /questions; each seed question shows its origin and a reading that went through challenger and auditor." }
+
+  # ── Agents in the app ────────────────────────────────────────────────────────────────────────────────────
+  - { id: T-AGT-001, title: "Every model call records role, provider, model, instruction version, tokens and cost", kind: manual, status: passing, how: "Ask Holon a question; the Costs page and the ModelCall row carry every field (verified 2026-10-20)." }
+  - { id: T-AGT-002, title: "Invalid agent output is rejected and logged; nothing is stored", kind: automated, status: planned, how: "Feed each agent's validator malformed output." }
+  - { id: T-AGT-004, title: "No agent's work is audited or challenged on the model that produced it", kind: automated, status: planned, how: "Resolve the auditor's model for each kind of work and the challenger's model from config; none equals the producer's." }
+  - { id: T-AGT-006, title: "The Agents page states models per role and that they are not different providers", kind: automated, status: passing, file: app/src/site/pages/pages.test.ts, how: "Render the Agents page." }
+  - { id: T-AGT-007, title: "Every AI-made item carries the AI-made label", kind: manual, status: planned, how: "Walk the definition of done (change brief 0.1, section 16): every reading, post and extraction by an agent is labelled." }
+  - { id: T-AGT-008, title: "Text in a post cannot steer an agent", kind: harness, status: planned, how: "Each agent's test set includes a post or source containing instructions; the agent treats it as data." }
+  - { id: T-AGT-009, title: "Every agent has a page with specification, and instructions, settings, tests and history where they exist", kind: automated, status: passing, file: app/src/site/pages/pages.test.ts, how: "Render every agent's page." }
+  - { id: T-AGT-010, title: "Each agent's harness reports result, model, instruction version and cost per case", kind: harness, status: planned, how: "Run each harness; tested-on.yaml gains a run with every field." }
+
+  # ── Artifacts ────────────────────────────────────────────────────────────────────────────────────────────
+  - { id: T-ART-001, title: "Artifact metadata points to its stored file", kind: automated, status: planned, how: "Content check: every artifact with a file reference resolves to an object in the store." }
+  - { id: T-ART-002, title: "Artifact files are written and read through the S3-compatible interface", kind: automated, status: planned, how: "Write and read a file against a test bucket." }
+  - { id: T-ART-003, title: "Access to a file follows its rights status", kind: automated, status: planned, how: "One artifact per rights status; open ones readable by a visitor, permission-granted ones only by agents, others have no file." }
+  - { id: T-ART-005, title: "No file is held without rights that allow it", kind: automated, status: planned, how: "Content check and store check fail when a not-held artifact has a file." }
+  - { id: T-ART-006, title: "Every artifact shows 'Full text held' or 'Citation only'", kind: automated, status: planned, how: "Render an artifact page and a source card for each case." }
+
+  # ── Growth: scout and budget ─────────────────────────────────────────────────────────────────────────────
+  - { id: T-GRW-001, title: "Seed acquisition looks each work up and records what each service reported", kind: automated, status: planned, how: "Against recorded service responses (no live calls): every work has a lookup record per service." }
+  - { id: T-GRW-003, title: "Rights status comes from licence metadata; unclear means not held", kind: harness, status: planned, how: "Scout test set: CC BY, CC BY-NC, no licence, conflicting metadata." }
+  - { id: T-GRW-004, title: "An open version is found before 'citation only', which records everything required", kind: harness, status: planned, how: "Scout test set: a closed article with an open preprint; a closed book with none." }
+  - { id: T-GRW-006, title: "A source cited in a post is looked up and acquired", kind: automated, status: planned, how: "Post with a DOI; the scout's request is queued and its result appears as a source card." }
+  - { id: T-GRW-007, title: "A missing note acquires up to three works, each with its reason", kind: automated, status: planned, how: "Feed a missing note with fake search results." }
+  - { id: T-GRW-008, title: "Acquisition stops at the daily cap", kind: automated, status: planned, how: "Set the cap to 2; the third request waits until the next day." }
+  - { id: T-GRW-009, title: "Only open sources; robots rules respected", kind: manual, status: planned, how: "Review the scout's service list and its robots handling in code." }
+  - { id: T-GRW-010, title: "The budget shares are brief 0.1's and add up to the monthly budget; the Growth page shows spend per share", kind: automated, status: passing, file: app/src/site/pages/pages.test.ts, how: "Read growth/budget.yaml through the app's budget module." }
+  - { id: T-GRW-011, title: "A spent share pauses its work; a spent audit share holds readings unaudited", kind: automated, status: planned, how: "Fake spend at the share; the next request for that work is held." }
+  - { id: T-GRW-013, title: "Seed readings are charged to the seeding allowance", kind: automated, status: planned, how: "Run a seed reading with fakes; its calls carry servedFor 'seeding' and the shares do not change." }
+  - { id: T-GRW-014, title: "Fair-use limits hold", kind: manual, status: passing, how: "Built and checked in the concept demo (2026-10-20)." }
+
+  # ── Records and export ───────────────────────────────────────────────────────────────────────────────────
+  - { id: T-REC-001, title: "Record mode defaults to sandbox", kind: automated, status: planned, how: "Without RECORD_MODE, the mode is sandbox; with keep, keep." }
+  - { id: T-REC-002, title: "Draft-period records carry the sandbox flag", kind: automated, status: planned, how: "In sandbox mode, create one record of each kind." }
+  - { id: T-REC-003, title: "The sandbox banner shows on every page", kind: automated, status: planned, how: "Render pages in sandbox mode and in keep mode." }
+  - { id: T-REC-004, title: "The wipe deletes sandbox records, keeps what it must, is confirmed twice and logged", kind: automated, status: planned, how: "Seed one record of each kind; wipe; check what remains and the log entry." }
+  - { id: T-REC-006, title: "A record-mode switch is logged with steward and time", kind: automated, status: planned, how: "Switch the mode as a steward." }
+  - { id: T-REC-007, title: "The export holds everything publishable, with a manifest, checksums, schema version and commit", kind: automated, status: planned, how: "Produce an export; verify the manifest against the files." }
+  - { id: T-REC-009, title: "The readings command writes reading.md files: first audited seed readings in sandbox, all in keep", kind: automated, status: planned, how: "Run the command against an export in each mode." }
+
+  # ── Monitoring ───────────────────────────────────────────────────────────────────────────────────────────
+  - { id: T-MON-001, title: "The checks run every six hours and when a steward asks", kind: manual, status: planned, how: "After deploy: the Operations page shows a scheduled run within six hours; the steward's button adds a run." }
+  - { id: T-MON-003, title: "App, database and each running agent's model are checked", kind: manual, status: planned, how: "After deploy with the new key: the latest run lists the database and claude-sonnet-5-5 as ok." }
+  - { id: T-MON-004, title: "Key expiry: under 14 days fails, missing expiry warns, no key fails", kind: automated, status: passing, file: app/src/ops/monitor.test.ts, how: "Unit test of checkKeyExpiry." }
+  - { id: T-MON-005, title: "A job late by more than twice its interval fails", kind: automated, status: passing, file: app/src/ops/monitor.test.ts, how: "Unit test of checkJob." }
+  - { id: T-MON-006, title: "A spent share fails, 80% warns", kind: automated, status: passing, file: app/src/ops/monitor.test.ts, how: "Unit test of checkBudget." }
+  - { id: T-MON-007, title: "The same failures are not emailed twice within a day; changed failures are", kind: automated, status: passing, file: app/src/ops/monitor.test.ts, how: "Unit test of shouldAlert." }
+  - { id: T-MON-007-live, title: "A failed check reaches Karl's inbox", kind: manual, status: planned, how: "With RESEND_API_KEY and MONITOR_ALERT_TO set, set ANTHROPIC_KEY_EXPIRES to a date within 14 days, run the checks; an email arrives. Restore the date." }
+  - { id: T-MON-008, title: "The Operations page shows instructions, results and jobs; only stewards can run the checks", kind: automated, status: passing, file: app/src/site/pages/pages.test.ts, how: "Render the page as a visitor and as a steward." }
+  - { id: T-MON-010, title: "No check reports a key's value", kind: manual, status: passing, how: "Code review: checkKeyExpiry receives only whether the key is set; no result reads a secret (2026-11-27)." }
+
+  # ── Joining ──────────────────────────────────────────────────────────────────────────────────────────────
+  - { id: T-JOIN-001, title: "A steward creates a unique invitation", kind: automated, status: planned, how: "Create two invitations; their links differ and each names one person." }
+  - { id: T-JOIN-002, title: "First use of an invitation asks for name, consent (stating the record mode) and disclosure", kind: automated, status: planned, how: "Open a new invitation; the joining form appears and posting is refused until it is completed." }
+  - { id: T-JOIN-004, title: "Empty disclosure fields show 'not disclosed'", kind: automated, status: planned, how: "Join with no disclosure; the disclosure page shows each field as not disclosed." }
+  - { id: T-JOIN-005, title: "A host-site reviewer is read-only and can be upgraded by invitation", kind: automated, status: planned, how: "Enter with a reviewer link: no post form. Invite the same email: joining works." }
+  - { id: T-JOIN-007, title: "Only a steward reaches the steward view", kind: automated, status: planned, how: "Request steward routes as a participant and as a steward." }
+  - { id: T-JOIN-008, title: "Feedback from any page reaches the feedback log", kind: automated, status: planned, how: "Send feedback from a page; it appears on the Operations page." }
+
+  # ── Dialog ───────────────────────────────────────────────────────────────────────────────────────────────
+  - { id: T-DLG-001, title: "A contribution is a post or a transcript segment", kind: automated, status: planned, how: "Store one of each; read them back." }
+  - { id: T-DLG-002, title: "Posts in order with name, time and a link to the disclosure; replies attach to a post", kind: automated, status: planned, how: "Render a thread with a reply." }
+  - { id: T-DLG-004, title: "Facilitator, Holon and challenger posts carry their labels", kind: automated, status: planned, how: "Render a thread with one of each." }
+  - { id: T-DLG-005, title: "A new post is extracted by the curator", kind: automated, status: planned, how: "Add a post with a fake curator; the extraction is stored." }
+  - { id: T-DLG-006, title: "The extraction shows collapsed under its post", kind: automated, status: planned, how: "Render a post with an extraction." }
+  - { id: T-DLG-007, title: "Only the author corrects an extraction; the original stays", kind: automated, status: planned, how: "Correct as the author and as someone else." }
+  - { id: T-DLG-008, title: "A post citing a source shows its source card", kind: automated, status: planned, how: "Render a post citing a held and a citation-only source." }
+  - { id: T-DLG-009, title: "With one person present the facilitator converses and keeps to the question", kind: harness, status: planned, how: "Facilitator test set: a one-person thread drifting off topic." }
+  - { id: T-DLG-010, title: "On convergence the facilitator invites endorsement and asks for a working draft, never claims agreement", kind: harness, status: planned, how: "Facilitator test set: converging thread; and a thread where agreement is not there (change brief 0.1, section 14)." }
+  - { id: T-DLG-011, title: "The facilitator uses only the first three rungs and never holds legitimate dissent", kind: harness, status: planned, how: "Facilitator test set: sharp but legitimate dissent; an abusive post." }
+  - { id: T-DLG-012, title: "A held post is hidden, queued for the steward and logged publicly", kind: automated, status: planned, how: "Hold a post; check the thread, the hold queue and the moderation log." }
+  - { id: T-DLG-013, title: "Holon asked on a thread or post answers in the thread, labelled", kind: automated, status: planned, how: "Ask with a fake Holon." }
+  - { id: T-DLG-014, title: "Endorse, accept with reservations, dispute, with an optional position", kind: automated, status: planned, how: "Record each response on a point and render it." }
+  - { id: T-DLG-016, title: "No endorsement without a person's own action", kind: harness, status: planned, how: "Curator and facilitator test sets: a post saying 'I agree with point 2' creates no endorsement." }
+  - { id: T-DLG-017, title: "A participant can follow a question", kind: automated, status: planned, how: "Follow and unfollow." }
+
+  # ── Notifications ────────────────────────────────────────────────────────────────────────────────────────
+  - { id: T-NTF-001, title: "A follower sees per changed point what changed, why and the new level", kind: automated, status: planned, how: "Revise a followed question; read the follower's notices." }
+  - { id: T-NTF-002, title: "A working draft shows a banner naming its changes", kind: automated, status: planned, how: "Render a question with a working draft." }
+
+  # ── Ask Holon ────────────────────────────────────────────────────────────────────────────────────────────
+  - { id: T-ASK-001, title: "Holon is given the reading, with levels, of a question it answers", kind: automated, status: planned, how: "Ask about a seed question with a fake provider; the request contains the reading and its levels." }
+  - { id: T-ASK-002, title: "Holon's answers state reading levels correctly and label what is not from the commons", kind: harness, status: planned, how: "Holon test set (change brief 0.1, section 14)." }
+  - { id: T-ASK-003, title: "Cited sources link to their artifacts", kind: automated, status: planned, how: "Render an answer citing two sources." }
+  - { id: T-ASK-005, title: "Sessions are private to the asker and stewards and never reach another agent", kind: manual, status: passing, how: "Built in the concept demo: /sessions is steward-only; no agent reads HolonSession (code review, 2026-11-27)." }
+  - { id: T-ASK-006, title: "A shared gap can become a question with its origin", kind: automated, status: planned, how: "Share a question; it is offered with origin 'Holon gap shared by the asker'." }
+
+  # ── Surfaces ─────────────────────────────────────────────────────────────────────────────────────────────
+  - { id: T-PUB-001, title: "Without a valid link, every page is refused", kind: manual, status: passing, how: "Open the site in a private window (concept demo, 2026-10-20)." }
+  - { id: T-PUB-002, title: "Definition, principles and every agent are shown", kind: automated, status: planned, how: "Render the pages; principles from requirements/10-principles.md." }
+  - { id: T-PUB-003, title: "Question list, question pages and artifact pages render", kind: automated, status: planned, how: "Render every question and artifact." }
+  - { id: T-PUB-004, title: "The question page shows the whole reading above the dialog, collapsible on a phone", kind: manual, status: planned, how: "Open a seed question at 360 px and at 1280 px." }
+  - { id: T-PUB-006, title: "Costs, changes, gap log, moderation log and Operations render", kind: automated, status: planned, how: "Render each page." }
+  - { id: T-PUB-007, title: "/state and /changelog render, with links pointed at site pages", kind: automated, status: passing, file: app/src/site/pages/pages.test.ts, how: "Render both pages." }
+  - { id: T-PUB-008, title: "No page scrolls sideways at 360 px", kind: manual, status: planned, how: "Open every page at 360 px wide." }
+  - { id: T-PUB-009, title: "Every surface uses the design system's tokens and components", kind: manual, status: planned, how: "Review the stylesheet: no colour, size or spacing outside the tokens." }
+  - { id: T-PAR-001, title: "Only joined participants can act", kind: automated, status: planned, how: "Post, endorse, correct and follow as a reviewer: refused." }
+  - { id: T-PAR-002, title: "A participant finds every action on the question page", kind: manual, status: planned, how: "Walk the definition of done as Karl." }
+  - { id: T-PAR-003, title: "A participant sees and changes their disclosure and sees their notices", kind: automated, status: planned, how: "Change a disclosure field; open the notices." }
+  - { id: T-STW-001, title: "Only a steward uses the steward view", kind: automated, status: planned, how: "Request it as a participant: not found." }
+  - { id: T-STW-002, title: "The steward view holds invitations, hold queue, record mode and wipe, budget, feedback", kind: manual, status: planned, how: "Open the steward view as Karl." }

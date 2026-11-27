@@ -86,6 +86,7 @@ footer.site nav { display: flex; flex-wrap: wrap; gap: .3rem 1rem; margin-bottom
 .badge.ai { background: var(--ai-soft); color: var(--ai); border-color: transparent; }
 .badge.warn, .badge.sample { background: var(--warn-soft); color: var(--warn); border-color: transparent; }
 .badge.ok { background: var(--ok-soft); color: var(--ok); border-color: transparent; }
+.badge.fail { background: var(--bad-soft); color: var(--bad); border-color: transparent; }
 .status-settled { background: var(--ok-soft); color: var(--ok); border-color: transparent; }
 .status-leaning { background: var(--accent-soft); color: var(--accent); border-color: transparent; }
 .status-contested { background: var(--bad-soft); color: var(--bad); border-color: transparent; }

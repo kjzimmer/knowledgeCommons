@@ -8,6 +8,8 @@ import { commons, REPO_ROOT } from './content/load';
 import { acceptReviewLink, reviewGate } from './lib/review';
 import apiRouter from './routes/api';
 import pageRouter from './routes/pages';
+import { monitorJob } from './ops/monitor';
+import { registerJob, startScheduler } from './ops/scheduler';
 
 const app = express();
 app.disable('x-powered-by');
@@ -36,4 +38,9 @@ app.use(reviewGate);
 app.use(pageRouter);
 
 const port = Number(process.env.PORT) || 3100;
-app.listen(port, () => console.log(`[commons] listening on ${port}`));
+app.listen(port, () => {
+  console.log(`[commons] listening on ${port}`);
+  // Scheduled jobs (decision 0006): in-process, recorded in the database. SCHEDULER=off disables them locally
+  registerJob(monitorJob());
+  if (process.env.SCHEDULER !== 'off') startScheduler();
+});

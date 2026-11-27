@@ -4,6 +4,25 @@ What happened in the commons, newest first. Each entry is tagged **Decision**, *
 **Incident** or **Governance**. This log does not list every commit: the full history is on the Changes page and
 in the repository. The current picture is in [STATE.md](STATE.md).
 
+## 2026-11-27
+
+- **Release.** The monitor runs. Every six hours it checks that the app, its database and each model in use answer,
+  that the AI key is set and more than 14 days from expiry, that scheduled jobs ran, and that spending is within
+  each budget share. It emails the steward when a check fails. Its instructions and results are public on the new
+  Operations page.
+- **Release.** Every agent now has a public specification. That covers the six knowledge agents (Holon, curator,
+  challenger, auditor, facilitator, scout) and the app team (requirements agent, monitor, coding agent, code
+  reviewer, support, improvement, administration). The Agents page shows them. The auditor's model is now set per
+  kind of work it checks, never the model that produced the work.
+- **Decision (proposed).** Eight decision records drafted for Karl to decide: how decisions are recorded, the tech
+  stack, the repository layout, the requirements structure, the design system, events between the parts, where
+  question-loop data lives (interim), and artifact files in R2.
+- **Release.** The app's requirements are now written down (`requirements/`), with the development standard, the
+  eleven design principles (proposed) and 134 requirements for the question loop. Each requirement traces to a
+  principle and has an acceptance test. A check enforces the links.
+- **Decision.** The monthly budget's shares follow change brief 0.1: Holon 30%, curation 25%, audit 15%, challenge
+  10%, facilitation 10% and scouting 10%, plus a one-time $20 seeding allowance.
+
 ## 2026-11-23
 
 - **Decision.** Answers to the Stage 0 questions on change brief 0.1, by Karl as interim steward:

@@ -1,6 +1,6 @@
 # The state of [COMMONS NAME]
 
-*23 November 2026. Updated at the end of every work session that changes something. What happened, and when:
+*27 November 2026. Updated at the end of every work session that changes something. What happened, and when:
 [CHANGELOG.md](CHANGELOG.md).*
 
 ## What this is
@@ -20,6 +20,8 @@ same public interface as any other site.
 | The content: 27 artifacts (works), 32 claim entries, 10 questions, the map (domains, glossary, statuses) | Curator and auditor: instructions written, not running |
 | Holon, the commons' agent, in ask mode: answers with sources, agreement status and reason, strongest objection, and what we don't know | Review queue: sample proposals and auditor reports |
 | Costs page with every model call and its cost; gap log; change history | Growth loops (discovery, question mining, analysis): sample status only |
+| The monitor: checks every six hours, results on the Operations page (`/operations`) | |
+| Requirements, decision records (all proposed) and a traceability check | |
 | Public interface (`/api/v1`): read, search, ask Holon, reviewer links for host sites | Contribute forms, endorse and dispute buttons, Holon discuss mode, proposals |
 | Invite-only access through signed links | Test harness, monthly ledger, permission requests (none sent yet) |
 
@@ -32,19 +34,30 @@ being revoked; a new key is being created.
 
 ## Agents and models
 
+Every agent has a public specification (`agents/<name>/spec.md`, shown at `/agents`).
+
 | Agent | Role | Model | Running |
 |---|---|---|---|
 | Holon | Answers questions under the state-of-knowledge standard | Claude Sonnet 5.5 | Yes (ask mode), once its key is replaced |
 | Curator | Drafts and revises readings | Claude Sonnet 5.5 | Not yet |
-| Auditor | Checks work against sources' actual text | A different Claude model from the work it checks | Not yet |
+| Challenger | Writes the strongest case against each point | Claude Opus 5.5 | Not yet |
+| Auditor | Checks work against its sources | Opus for Sonnet's work, Sonnet for Opus's, Haiku for mechanical checks | Not yet |
+| Facilitator | Hosts dialogs | Claude Sonnet 5.5 | Not yet |
+| Scout | Acquires open works | Mostly code; Claude Haiku 5.5 to rank and summarize | Not yet |
+| Monitor | Checks the app, models, key, jobs and budget; alerts the steward | Code (one-line model checks) | Yes |
 
-Every model call records its provider, model and instruction version. Each agent's instructions are public at
-`/agents` and in `agents/`. All agents run on Anthropic's Claude for now; the code reaches models through one
-provider interface, so other providers can be added.
+The app team's other agents (requirements, coding, code review, support, improvement, administration) are
+specifications only. Every model call records its provider, model and instruction version. All agents run on
+Anthropic's Claude for now, and no agent's work is checked by the model that produced it; these are different
+Claude models, not different providers yet. The code reaches models through one provider interface, so other
+providers can be added.
 
 ## Budget and spend
 
-- Monthly AI budget (draft): **$50**. Fair use: 30 questions a day per person, and a $2 daily ceiling.
+- Monthly AI budget (draft): **$50**, in shares: Holon 30%, curation 25%, audit 15%, challenge 10%, facilitation
+  10%, scouting 10%. Nothing counts without its audit.
+- A one-time **seeding allowance of $20** for the first readings of the fifteen seed questions.
+- Fair use: 30 questions a day per person, and a $2 daily ceiling.
 - Measured cost of a Holon answer: $0.01 to $0.03.
 - Live spend is on the Costs page (`/costs`), from the call log.
 
@@ -66,7 +79,14 @@ A change brief (0.1, 21 Nov) is being started. It builds the commons' core cycle
 - **Storage**: artifact files in Cloudflare R2, readable according to their rights; dialog data in a database with
   full history and a complete export; recorded readings as plain files in this repository.
 
-Status of the work: the Stage 0 report is written (`docs/reports/2026-11-23-stage0.md`). Nothing is built yet.
+Status of the work:
+
+- **Stage 0 (done):** the report (`docs/reports/2026-11-23-stage0.md`) and these public files.
+- **Stage 1, foundations (done, 27 Nov):** requirements (`requirements/`: 11 principles, 134 requirements for
+  this slice, each with its tests, all proposed); eight decision records for Karl to decide (`decisions/`); agent
+  specifications for all thirteen agents; the monitor with its Operations page; the budget shares.
+- **Next:** stage 2 (record mode, the question record in the database, artifact files in R2), then one seed
+  question (Q6, on polycrisis) all the way through the loop.
 
 ## Main open questions
 
@@ -77,5 +97,6 @@ Status of the work: the Stage 0 report is written (`docs/reports/2026-11-23-stag
 - Public access and a domain. The site stays invite-only for now.
 - How "people who usually disagree" is measured for the endorsed level.
 - When a second AI provider is added for the challenger and auditor.
+- The eight technical decision records, each with a recommendation (`decisions/`).
 
 Design documents for the next stage (drafts, not adopted) are in `docs/incoming/changeBrief_v0_1/`.

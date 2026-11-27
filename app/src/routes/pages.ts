@@ -9,7 +9,9 @@ import { reviewerOf, stewardOnly } from '../lib/review';
 import { ask, shareQuestion } from '../holon/holon';
 import { anthropicConfigured } from '../holon/anthropic';
 import { limitReached } from '../holon/usage';
+import { runChecks } from '../ops/monitor';
 import { page } from '../site/layout';
+import { operationsPage } from '../site/pages/operations';
 import { renderAnswer, usd } from '../site/ui';
 import { askPage } from '../site/pages/ask';
 import {
@@ -68,7 +70,19 @@ router.get('/agents/:id', (req, res) => {
 });
 router.get('/costs', async (req, res) => send(req, res, 'Costs', await costsPage()));
 router.get('/funding', (req, res) => send(req, res, 'Funding', fundingPage()));
-router.get('/state', (req, res) => send(req, res, 'State of the commons', statePage()));
+router.get('/operations', async (req, res) => {
+  const notice = req.query.ran === '1' ? 'The checks ran. Results below.' : undefined;
+  send(req, res, 'Operations', await operationsPage(reviewerOf(res)?.role === 'steward', notice));
+});
+router.post('/operations/run', stewardOnly, async (_req, res) => {
+  try {
+    await runChecks('steward');
+  } catch (err) {
+    console.error('[monitor] steward run failed:', err);
+  }
+  res.redirect(303, '/operations?ran=1');
+});
+router.get('/state',(req, res) => send(req, res, 'State of the commons', statePage()));
 router.get('/changelog', (req, res) => send(req, res, 'Changelog', changelogPage()));
 router.get('/changes', async (req, res) => send(req, res, 'Changes', await changesPage()));
 router.get('/permissions', (req, res) => send(req, res, 'Permissions', permissionsPage()));

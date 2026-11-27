@@ -4,6 +4,7 @@
 
 import { stringify as toYaml } from 'yaml';
 import { commons } from '../../content/load';
+import { Agent } from '../../content/types';
 import { html, Html, text } from '../../lib/html';
 import prisma, { dbConfigured } from '../../lib/db';
 import { askSettings } from '../../holon/holon';
@@ -39,42 +40,58 @@ export function changelogPage(): Html {
   return repoDoc(commons().docs.changelog);
 }
 
+const AGENT_STATUS: Record<Agent['status'], { label: string; badge: string }> = {
+  running: { label: 'Running', badge: 'ok' },
+  specified: { label: 'Specified, being built', badge: 'warn' },
+  later: { label: 'Specification only', badge: '' },
+};
+
+function agentCard(a: Agent): Html {
+  const s = AGENT_STATUS[a.status];
+  return html`<li class="card"><a class="card-title" href="/agents/${a.id}">${a.name}</a><p>${a.summary}</p><div class="meta"><span class="badge ${s.badge}">${s.label}</span>${a.version ? html` <span class="badge">instructions ${a.version}</span>` : ''}</div></li>`;
+}
+
 export function agentsPage(): Html {
-  const c = commons();
-  const blurbs: Record<string, string> = {
-    holon: "The commons' agent. Answers questions under the state-of-knowledge standard. Live in this demo (ask mode).",
-    curator: 'Drafts claim entries from new artifacts. Not running in the demo; its work is shown with sample proposals.',
-    auditor: 'Checks every contribution, from people and agents alike, on a different model. Not running in the demo; sample reports are shown on Review.',
-  };
+  const all = [...commons().agents.values()];
   return html`
 <h1>Agents</h1>
-<p class="lede">Each agent's instructions are public, versioned and forkable. Every answer and contribution records the model and the version of the instructions that produced it.</p>
-<ul class="cards">${[...c.agents.values()].map((a) => html`<li class="card"><a class="card-title" href="/agents/${a.id}">${a.id[0].toUpperCase()}${a.id.slice(1)}</a><p>${blurbs[a.id] ?? ''}</p><div class="meta"><span class="badge">instructions ${a.version}</span></div></li>`)}</ul>
+<p class="lede">Each agent has a public specification (what it does, what it never does, what it remembers, who checks it) and, once it runs, public instructions. Every answer and contribution records the model and the version of the instructions that produced it.</p>
+<h2>The knowledge agents</h2>
+<ul class="cards">${all.filter((a) => a.kind === 'knowledge').map(agentCard)}</ul>
+<h2>The app team</h2>
+<p class="muted">Agents that look after the commons' software. Only the monitor runs; the rest are specifications, ready to be switched on when the commons needs them.</p>
+<ul class="cards">${all.filter((a) => a.kind === 'app-team').map(agentCard)}</ul>
 <h2>Many models, not one</h2>
-<p>The commons starts on Anthropic's Claude models and intends to run on a mix, including open-source models it can host itself. Agent code talks to models through one provider interface, so a second provider can be added without changing the agents. Where possible, checks on an agent's work run on a different model from the one that did the work: in this draft, with only Claude available, the auditor uses Claude Haiku 5.5 to check work done by Claude Sonnet 5.5.</p>`;
+<p>The commons starts on Anthropic's Claude models and intends to run on a mix, including open-source models it can host itself. Agent code talks to models through one provider interface, so a second provider can be added without changing the agents.</p>
+<p>No agent's work is checked by the model that produced it. The challenger runs on Claude Opus 5.5 against the curator's Claude Sonnet 5.5. The auditor's model is set per kind of work: Opus audits work made by Sonnet (the curator's readings, Holon's posts), Sonnet audits work made by Opus (the challenger's case), and Haiku is available for mechanical checks. <strong>These are different Claude models, not different providers yet</strong>: a second provider is planned before the commons opens to the public.</p>`;
 }
 
 export function agentPage(id: string): Html | null {
   const a = commons().agents.get(id);
   if (!a) return null;
-  const tests = id === 'holon' ? commons().tests.holon : id === 'auditor' ? commons().tests.auditor : null;
+  const s = AGENT_STATUS[a.status];
+  const runs = (a.testedOn as { runs?: unknown[] } | null)?.runs;
   return html`
 <p class="crumbs"><a href="/agents">Agents</a></p>
-<h1>${a.id[0].toUpperCase()}${a.id.slice(1)}</h1>
-<div class="meta"><span class="badge">instructions ${a.version}</span> <span class="badge">updated ${a.updated}</span> <span class="badge warn">Not yet approved</span></div>
+<h1>${a.name}</h1>
+<div class="meta"><span class="badge ${s.badge}">${s.label}</span>${a.version ? html` <span class="badge">instructions ${a.version}</span> <span class="badge">updated ${a.updated}</span>` : ''} <span class="badge warn">Not yet approved</span></div>
+<p class="lede">${a.summary}</p>
+<h2>Specification</h2>
+<p class="muted">From <a href="https://github.com/kjzimmer/knowledgeCommons/blob/main/agents/${a.id}/spec.md" rel="noopener" target="_blank">agents/${a.id}/spec.md</a>. Source: ${a.source}. Traces to the principles ${a.parents.join(', ')}.</p>
+<div class="doc">${markdown(a.spec)}</div>
+${a.instructions !== null
+    ? html`<h2>Instructions, verbatim</h2>
 ${a.note ? html`<p class="muted">${a.note}</p>` : ''}
-<h2>Instructions, verbatim</h2>
 <p class="muted">From <a href="https://github.com/kjzimmer/knowledgeCommons/blob/main/agents/${a.id}/instructions.md" rel="noopener" target="_blank">agents/${a.id}/instructions.md</a>.${id === 'holon' ? ' Holon also receives the layer-1 map and an index of entries with every question.' : ''}</p>
-<pre class="instructions">${a.instructions}</pre>
-<h2>Model</h2>
-<pre class="yaml">${toYaml(a.modelSettings)}</pre>
-<h2>Models tested on, and results</h2>
-${a.testedOn && Array.isArray((a.testedOn as { runs?: unknown[] }).runs) && (a.testedOn as { runs: unknown[] }).runs.length
+<pre class="instructions">${a.instructions}</pre>`
+    : html`<h2>Instructions</h2><p class="muted">Not written yet: instructions are written from the specification when the agent is built.</p>`}
+${a.config ? html`<h2>Settings</h2><pre class="yaml">${toYaml(a.config)}</pre>` : ''}
+${a.status !== 'later' ? html`<h2>Models tested on, and results</h2>
+${Array.isArray(runs) && runs.length
     ? html`<pre class="yaml">${toYaml(a.testedOn)}</pre>`
-    : html`<p class="muted">No test runs yet. A run reports, for each test question, the expected sources used, whether the answer met the state-of-knowledge standard, and its cost.</p>`}
-${tests ? html`<h3>Test set (example rows only)</h3><pre class="yaml">${toYaml(tests)}</pre>` : ''}
-<h2>History</h2>
-${markdown(a.history)}`;
+    : html`<p class="muted">No test runs yet. A run reports, for each test case, whether the agent met its standard, and its cost.</p>`}` : ''}
+${a.tests.map((t) => html`<h3>Test set: ${t.file.split('/').pop()} (example rows only)</h3><pre class="yaml">${toYaml(t.data)}</pre>`)}
+${a.changelog ? html`<h2>History</h2>${markdown(a.changelog)}` : ''}`;
 }
 
 export async function costsPage(): Promise<Html> {

@@ -1,0 +1,6 @@
+# The facilitator's settings. A role is running only when its status is "running".
+roles:
+  facilitate:
+    status: not running yet (change brief 0.1, stage 6)
+    provider: anthropic
+    model: claude-sonnet-5-5

@@ -21,6 +21,7 @@ const TRANSPARENCY: [string, string][] = [
   ['/changelog', 'Changelog'],
   ['/agents', 'Agents'],
   ['/costs', 'Costs'],
+  ['/operations', 'Operations'],
   ['/funding', 'Funding'],
   ['/changes', 'Changes'],
   ['/permissions', 'Permissions'],
