@@ -33,6 +33,12 @@ order of work: one seed question end to end right after the foundations).
 - **Karl to set on `livingSystems`:** `ANTHROPIC_API_KEY` + `ANTHROPIC_KEY_EXPIRES` (YYYY-MM-DD), `RESEND_API_KEY`
   + `MONITOR_ALERT_TO` + `MONITOR_ALERT_FROM` (an `@abundancearchitecture.world` address; see below). Until
   they're set, the monitor shows failures (key, model) and a warning (alerts) on `/operations`.
+- **Gap found in testing, pending a second review (Karl, 2026-11-27):** Holon, asked "Who is Elinor Ostrom?",
+  said the biography was missing instead of answering. Karl's direction: Holon always answers (labelled "Not from
+  the commons"), and the sources it relied on become scout tasks. Logged as proposed requirements CAP-ASK-007..009
+  and CAP-GRW-015..017 ("pending second review"), with the proposal and seven review questions in
+  `docs/reviews/2026-11-27-holon-gaps-to-scout.md`. Karl discusses it with Claude in the commons project after
+  testing this version. **Don't build it until he comes back with the outcome.**
 - **Temporary (Karl, 2026-11-27): alert email is sent through Karl's existing Resend account, with a
   sending-only key restricted to `abundancearchitecture.world`.** Good enough for prototyping and demos before
   real users; it ties the commons' operations to AA's domain and to an account shared with other projects. Undo
@@ -41,8 +47,18 @@ order of work: one seed question end to end right after the foundations).
   `MONITOR_ALERT_FROM` (no code change). Longer term, the Anthropic key should also be linked to a service account
   in a dedicated workspace, in an organization the commons owns with at least two admins; to become a decision
   record when the commons becomes its own entity.
-- **Not verified on the live site yet:** the scheduled run, the model check and the email (T-MON-001, T-MON-003,
-  T-MON-007-live). Run them once the keys are in.
+- **Stage 1 tested on the live site (Karl, 2026-11-28):** scheduled and on-demand checks, the model check and the
+  alert email all work (T-MON-001, T-MON-003, T-MON-007-live passing). 17 built requirements whose tests all pass
+  are now `verified`.
+- **Findings go to `docs/reviews/findings-change-brief-0.1.md`** (F1 to F8 so far). Karl's direction
+  (2026-11-28): track everything, change nothing now, finish and test this version, then forward all findings into
+  the next major revision. Add new findings there as they come up; don't build them.
+- **Stop-or-continue rule (Karl, 2026-11-28; F11):** if a finding means continuing would build on something now
+  known to be wrong (work that would have to be redone), propose stopping: record it in the findings log and
+  `CHANGELOG.md` as a Decision, update this file, and wait for Karl. Otherwise record it and continue.
+- **Decisions:** 0006 (as revised after Karl's review: four reliability rules, scaling path, remaining gaps;
+  F10) and 0007 accepted, 2026-11-28. Stage 2 builds the event table and worker on 0006. Still proposed: 0001 to
+  0005 and 0010.
 - **Next, stage 2:** record mode (`RECORD_MODE`, banner, wipe), the question record in Postgres (draft
   `requirements/20-system/data-model.md` first), the R2 client and access rules (needs Karl's bucket), the export.
   Before the question page (stage 3): the design-system first pass (decision 0005) for Karl to review.

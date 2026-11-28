@@ -106,3 +106,6 @@ internal-only database: `railway run --service livingSystems -- bash -c 'DATABAS
 - At the end of each working session that changes something, update `docs/STATUS.md` (the working log) and
   `STATE.md` and `CHANGELOG.md` (the commons' public face, written for outsiders).
 - Pushing `feat/concept-demo` deploys the draft site; commit and push only when Karl says so.
+- Findings made while building or testing a version go to `docs/reviews/findings-<version>.md`, not into the code.
+  If a finding means continuing would build on something now known to be wrong, propose stopping the version
+  (record it, then wait for Karl); otherwise record it and continue.

@@ -131,7 +131,7 @@ rationale: Shares in growth/budget.yaml (Holon 30%, curation 25%, audit 15%, cha
 parents: [P-02]
 verification: [T-GRW-010]
 phase: now
-status: built
+status: verified
 origin: change brief 0.1, section 13
 decisions: []
 ```
@@ -183,7 +183,54 @@ rationale: 30 questions a day per person, $2 a day. Built in the concept demo.
 parents: [P-02, P-11]
 verification: [T-GRW-014]
 phase: now
-status: built
+status: verified
 origin: brief v0.2; change brief 0.1, section 13
+decisions: []
+```
+
+## Gap found in testing: gaps become scout tasks
+
+**Pending a second review** (Karl, 2026-11-27); see CAP-ASK-007 to CAP-ASK-009 and
+`docs/reviews/2026-11-27-holon-gaps-to-scout.md`. Not to be built until the review is done.
+
+### CAP-GRW-015 · Gaps become scout tasks
+
+```yaml
+statement: When a gap note within the commons' subject areas names candidate works, the system shall give them to the scout to verify and acquire.
+rationale: The commons grows from the questions people actually ask. Acquisition follows the scout's existing rules (open sources only, rights from licence metadata, daily cap, budget share).
+parents: [P-01, P-09]
+verification: [T-GRW-015]
+phase: now
+status: proposed
+origin: Karl, 2026-11-27; pending second review
+review: pending second review
+decisions: ["0006"]
+```
+
+### CAP-GRW-016 · Suggestions are not sources
+
+```yaml
+statement: The system shall not show a candidate work from a gap note as a source until the scout has verified it through a metadata service.
+rationale: A model can misremember a title, author or year; the rule against inventing sources holds.
+parents: [P-04, P-08]
+verification: [T-GRW-016]
+phase: now
+status: proposed
+origin: Karl, 2026-11-27; pending second review
+review: pending second review
+decisions: []
+```
+
+### CAP-GRW-017 · Gaps out of scope
+
+```yaml
+statement: If a gap note falls outside the commons' subject areas, then the system shall record it as out of scope without creating a scout task.
+rationale: Holon still answers; the scout's daily cap and budget share are kept for the commons' subjects (map/domains.yaml).
+parents: [P-11]
+verification: [T-GRW-015]
+phase: now
+status: proposed
+origin: Karl, 2026-11-27; pending second review
+review: pending second review
 decisions: []
 ```

@@ -62,7 +62,7 @@ rationale: Private sessions are never published and never feed other agents. Ste
 parents: [P-02, P-06]
 verification: [T-ASK-005]
 phase: now
-status: built
+status: verified
 origin: brief v0.2; agent definitions 0.2, section 5.1
 decisions: []
 ```
@@ -77,5 +77,55 @@ verification: [T-ASK-006]
 phase: now
 status: proposed
 origin: change brief 0.1, section 6
+decisions: []
+```
+
+## Gap found in testing: questions the commons cannot answer yet
+
+**Pending a second review** (Karl, 2026-11-27). Found when Holon, asked "Who is Elinor Ostrom?", reported the
+biography as missing from the commons instead of answering. Karl's direction: Holon answers every question from
+its own training where the commons falls short, and the sources it would rely on become work for the scout. The
+proposal and the questions for the review are in `docs/reviews/2026-11-27-holon-gaps-to-scout.md`. Not to be built
+until the review is done; related requirements CAP-GRW-015 to CAP-GRW-017.
+
+### CAP-ASK-007 · Always an answer
+
+```yaml
+statement: When the commons holds too little to answer a question, the system shall have Holon answer from its own knowledge under the label "Not from the commons".
+rationale: "A labelled answer from the model's training is still an answer; refusing helps no one (Karl, 2026-11-27). Today's instructions only say Holon may add its own knowledge."
+parents: [P-04]
+verification: [T-ASK-007]
+phase: now
+status: proposed
+origin: "Karl, 2026-11-27 (testing: 'Who is Elinor Ostrom?'); pending second review"
+review: pending second review
+decisions: []
+```
+
+### CAP-ASK-008 · Gap notes name candidate works
+
+```yaml
+statement: When Holon answers any part of a question from its own knowledge, the system shall record a gap note naming what the commons is missing and the works that would fill it, marked as unchecked suggestions.
+rationale: Turns each such answer into a lead for acquisition. The works are named from the model's memory and may be wrong, so they are suggestions until the scout verifies them (CAP-GRW-016).
+parents: [P-02, P-04]
+verification: [T-ASK-008]
+phase: now
+status: proposed
+origin: Karl, 2026-11-27; pending second review
+review: pending second review
+decisions: []
+```
+
+### CAP-ASK-009 · Short answers to simple questions
+
+```yaml
+statement: Where a question asks for a simple fact, the system shall have Holon answer in a short form, with the full state-of-knowledge form kept for claims and open questions.
+rationale: "A question like 'who is X' does not need evidence, objection and unknowns sections; docs/STATUS.md already expected a lighter format for short questions."
+parents: [P-04, P-10]
+verification: [T-ASK-007]
+phase: now
+status: proposed
+origin: Karl, 2026-11-27; pending second review
+review: pending second review
 decisions: []
 ```

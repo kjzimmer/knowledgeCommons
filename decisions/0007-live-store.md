@@ -1,10 +1,10 @@
 # 0007: Where question-loop data lives (interim)
 
-- **Status:** proposed. Its substance was agreed by Karl on 2026-11-23 (answers to change brief 0.1, B1; Stage 0
-  report, question 1); this record writes it down for his decision.
-- **Date:** 2026-11-27
+- **Status:** accepted (interim)
+- **Date:** 2026-11-27 (drafted); 2026-11-28 (accepted)
 - **Drafted by:** Claude Code (claude-opus-5-5), change brief 0.1, stage 1
-- **Decision:** not yet made (Karl decides)
+- **Decision:** option B, as recommended. Accepted by Karl Zimmer, 2026-11-28; its substance was agreed on
+  2026-11-23 (answers to change brief 0.1, B1; Stage 0 report, question 1).
 
 **This decision is interim.** The wider question stays open, to come back to later: how all of the commons is
 kept (knowledge, R2 files, the database, app code, configuration and everything else the app needs to run) so that

@@ -11,7 +11,7 @@ rationale: Often enough to catch a stopped service the same day; cheap (one shor
 parents: [P-02, P-11]
 verification: [T-MON-001]
 phase: now
-status: built
+status: verified
 origin: change brief 0.1, section 4
 decisions: ["0006"]
 ```
@@ -24,7 +24,7 @@ rationale: To confirm a fix without waiting for the schedule.
 parents: [P-11]
 verification: [T-MON-001]
 phase: now
-status: built
+status: verified
 origin: change brief 0.1, section 4
 decisions: []
 ```
@@ -37,7 +37,7 @@ rationale: "Change brief 0.1, section 4: the app, Holon and every agent answer."
 parents: [P-02, P-05]
 verification: [T-MON-003]
 phase: now
-status: built
+status: verified
 origin: change brief 0.1, section 4
 decisions: []
 ```
@@ -89,7 +89,7 @@ rationale: A changed set of failures is emailed at once; warnings are not emaile
 parents: [P-02]
 verification: [T-MON-007, T-MON-007-live]
 phase: now
-status: built
+status: verified
 origin: change brief 0.1, section 4; answers to change brief 0.1, A4
 decisions: []
 ```
@@ -102,7 +102,7 @@ rationale: Change brief 0.1, section 4.
 parents: [P-02]
 verification: [T-MON-008]
 phase: now
-status: built
+status: verified
 origin: change brief 0.1, section 4
 decisions: []
 ```
@@ -115,7 +115,7 @@ rationale: Otherwise failures would be silent.
 parents: [P-04]
 verification: [T-MON-008]
 phase: now
-status: built
+status: verified
 origin: Claude Code, stage 1
 decisions: []
 ```
@@ -128,7 +128,7 @@ rationale: The Operations page is public to everyone invited.
 parents: [P-02]
 verification: [T-MON-010]
 phase: now
-status: built
+status: verified
 origin: Claude Code, stage 1
 decisions: []
 ```

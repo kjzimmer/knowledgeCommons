@@ -11,7 +11,7 @@ rationale: Public access is not in this slice. Built in the concept demo.
 parents: [P-02]
 verification: [T-PUB-001]
 phase: now
-status: built
+status: verified
 origin: change brief 0.1, sections 1 and 15
 decisions: []
 ```
@@ -89,7 +89,7 @@ rationale: The commons' public face to its users (project comms 0.1).
 parents: [P-02]
 verification: [T-PUB-007]
 phase: now
-status: built
+status: verified
 origin: change brief 0.1, section 3
 decisions: []
 ```

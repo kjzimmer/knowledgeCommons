@@ -4,6 +4,21 @@ What happened in the commons, newest first. Each entry is tagged **Decision**, *
 **Incident** or **Governance**. This log does not list every commit: the full history is on the Changes page and
 in the repository. The current picture is in [STATE.md](STATE.md).
 
+## 2026-11-28
+
+- **Decision.** Decision 0007 accepted by Karl as interim. Dialog and operational data live in the database with
+  full revision history. Recorded readings are plain files in the repository. A complete, self-describing export
+  is made nightly. How the whole commons is kept, so that nothing is lost and anyone can fork it, remains an open
+  question.
+- **Decision.** Decision 0006 accepted by Karl, after a review that added explicit reliability rules. Events
+  between the parts of the app are recorded in the database, together with the change that causes them. A worker
+  handles them, with leases, retries and handlers that are safe to run twice, so no event is lost when the app
+  stops. Every event and its result is kept as history. The decision also sets out how to scale as use grows.
+- **Decision.** A working rule: a discovery made while building a version is recorded for the next revision. A
+  discovery that would mean redoing work stops the version until a decision is made.
+- **Release.** The monitor was tested on the live site: scheduled and on-demand checks, the model check and an
+  alert email all work.
+
 ## 2026-11-27
 
 - **Release.** The monitor runs. Every six hours it checks that the app, its database and each model in use answer,

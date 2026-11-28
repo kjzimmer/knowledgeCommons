@@ -10,7 +10,7 @@ rationale: Change brief 0.1, section 4.
 parents: [P-02]
 verification: [T-MON-008]
 phase: now
-status: built
+status: verified
 origin: change brief 0.1, section 4
 decisions: []
 ```
@@ -36,7 +36,7 @@ rationale: Each run costs a fraction of a cent per model; others can read but no
 parents: [P-03]
 verification: [T-MON-001]
 phase: now
-status: built
+status: verified
 origin: Claude Code, stage 1
 decisions: []
 ```

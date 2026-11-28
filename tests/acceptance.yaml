@@ -55,6 +55,8 @@ tests:
   - { id: T-GRW-010, title: "The budget shares are brief 0.1's and add up to the monthly budget; the Growth page shows spend per share", kind: automated, status: passing, file: app/src/site/pages/pages.test.ts, how: "Read growth/budget.yaml through the app's budget module." }
   - { id: T-GRW-011, title: "A spent share pauses its work; a spent audit share holds readings unaudited", kind: automated, status: planned, how: "Fake spend at the share; the next request for that work is held." }
   - { id: T-GRW-013, title: "Seed readings are charged to the seeding allowance", kind: automated, status: planned, how: "Run a seed reading with fakes; its calls carry servedFor 'seeding' and the shares do not change." }
+  - { id: T-GRW-015, title: "A gap within scope becomes a scout task; one out of scope does not", kind: automated, status: planned, how: "Log a gap on commons governance and one on football; only the first queues a scout task." }
+  - { id: T-GRW-016, title: "A candidate work is not shown as a source until verified", kind: automated, status: planned, how: "A gap names a work that no metadata service finds; it never appears as a source or artifact." }
   - { id: T-GRW-014, title: "Fair-use limits hold", kind: manual, status: passing, how: "Built and checked in the concept demo (2026-10-20)." }
 
   # ── Records and export ───────────────────────────────────────────────────────────────────────────────────
@@ -67,13 +69,13 @@ tests:
   - { id: T-REC-009, title: "The readings command writes reading.md files: first audited seed readings in sandbox, all in keep", kind: automated, status: planned, how: "Run the command against an export in each mode." }
 
   # ── Monitoring ───────────────────────────────────────────────────────────────────────────────────────────
-  - { id: T-MON-001, title: "The checks run every six hours and when a steward asks", kind: manual, status: planned, how: "After deploy: the Operations page shows a scheduled run within six hours; the steward's button adds a run." }
-  - { id: T-MON-003, title: "App, database and each running agent's model are checked", kind: manual, status: planned, how: "After deploy with the new key: the latest run lists the database and claude-sonnet-5-5 as ok." }
+  - { id: T-MON-001, title: "The checks run every six hours and when a steward asks", kind: manual, status: passing, how: "After deploy: the Operations page shows a scheduled run within six hours; the steward's button adds a run. Passed 2026-11-28 (Karl), with finding F5 in docs/reviews/findings-change-brief-0.1.md." }
+  - { id: T-MON-003, title: "App, database and each running agent's model are checked", kind: manual, status: passing, how: "After deploy with the new key: the latest run lists the database and claude-sonnet-5-5 as ok. Passed 2026-11-28 (Karl)." }
   - { id: T-MON-004, title: "Key expiry: under 14 days fails, missing expiry warns, no key fails", kind: automated, status: passing, file: app/src/ops/monitor.test.ts, how: "Unit test of checkKeyExpiry." }
   - { id: T-MON-005, title: "A job late by more than twice its interval fails", kind: automated, status: passing, file: app/src/ops/monitor.test.ts, how: "Unit test of checkJob." }
   - { id: T-MON-006, title: "A spent share fails, 80% warns", kind: automated, status: passing, file: app/src/ops/monitor.test.ts, how: "Unit test of checkBudget." }
   - { id: T-MON-007, title: "The same failures are not emailed twice within a day; changed failures are", kind: automated, status: passing, file: app/src/ops/monitor.test.ts, how: "Unit test of shouldAlert." }
-  - { id: T-MON-007-live, title: "A failed check reaches Karl's inbox", kind: manual, status: planned, how: "With RESEND_API_KEY and MONITOR_ALERT_TO set, set ANTHROPIC_KEY_EXPIRES to a date within 14 days, run the checks; an email arrives. Restore the date." }
+  - { id: T-MON-007-live, title: "A failed check reaches Karl's inbox", kind: manual, status: passing, how: "With RESEND_API_KEY and MONITOR_ALERT_TO set, set ANTHROPIC_KEY_EXPIRES to a date within 14 days, run the checks; an email arrives. Restore the date. Passed 2026-11-28 (Karl)." }
   - { id: T-MON-008, title: "The Operations page shows instructions, results and jobs; only stewards can run the checks", kind: automated, status: passing, file: app/src/site/pages/pages.test.ts, how: "Render the page as a visitor and as a steward." }
   - { id: T-MON-010, title: "No check reports a key's value", kind: manual, status: passing, how: "Code review: checkKeyExpiry receives only whether the key is set; no result reads a secret (2026-11-27)." }
 
@@ -112,6 +114,8 @@ tests:
   - { id: T-ASK-003, title: "Cited sources link to their artifacts", kind: automated, status: planned, how: "Render an answer citing two sources." }
   - { id: T-ASK-005, title: "Sessions are private to the asker and stewards and never reach another agent", kind: manual, status: passing, how: "Built in the concept demo: /sessions is steward-only; no agent reads HolonSession (code review, 2026-11-27)." }
   - { id: T-ASK-006, title: "A shared gap can become a question with its origin", kind: automated, status: planned, how: "Share a question; it is offered with origin 'Holon gap shared by the asker'." }
+  - { id: T-ASK-007, title: "Holon answers questions the commons cannot, labelled, and briefly when the question is simple", kind: harness, status: planned, how: "Holon test set: 'Who is Elinor Ostrom?' gets a short answer under 'Not from the commons' plus the commons' related entries; a claim question keeps the full form." }
+  - { id: T-ASK-008, title: "A gap note names the missing works as unchecked suggestions", kind: harness, status: planned, how: "Same test set: the gap note for the Ostrom question names candidate works and marks them unchecked." }
 
   # ── Surfaces ─────────────────────────────────────────────────────────────────────────────────────────────
   - { id: T-PUB-001, title: "Without a valid link, every page is refused", kind: manual, status: passing, how: "Open the site in a private window (concept demo, 2026-10-20)." }

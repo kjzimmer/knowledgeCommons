@@ -11,7 +11,7 @@ rationale: Transparency, reproducibility and the budget all depend on it. Built 
 parents: [P-02, P-05]
 verification: [T-AGT-001]
 phase: now
-status: built
+status: verified
 origin: brief v0.2; change brief 0.1, section 8
 decisions: ["0009"]
 ```
@@ -76,7 +76,7 @@ rationale: "Change brief 0.1, section 8: honest labels until a second provider i
 parents: [P-02, P-04]
 verification: [T-AGT-006]
 phase: now
-status: built
+status: verified
 origin: change brief 0.1, section 8
 decisions: []
 ```
@@ -115,7 +115,7 @@ rationale: Every agent's instructions are public; app-team agents are specified 
 parents: [P-02]
 verification: [T-AGT-009]
 phase: now
-status: built
+status: verified
 origin: change brief 0.1, section 4
 decisions: []
 ```
